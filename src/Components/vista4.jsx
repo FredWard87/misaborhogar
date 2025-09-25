@@ -1,14 +1,68 @@
 import React, { useState } from 'react';
-import { Edit3, Heart, List, Clock, Trophy, Bell, Moon, Calculator, BarChart, HelpCircle, MessageCircle, Info, LogOut, Sparkles } from 'lucide-react';
+import {
+  Box,
+  Container,
+  Typography,
+  IconButton,
+  Card,
+  CardContent,
+  AppBar,
+  Toolbar,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListItemSecondaryAction,
+  Switch,
+  Chip,
+  Button,
+  Avatar,
+  Stack,
+  Paper,
+  Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Snackbar,
+  Alert,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Fab,
+  Zoom,
+  alpha,
+  useTheme
+} from '@mui/material';
+import {
+  Edit as EditIcon,
+  Logout as LogoutIcon,
+  Favorite as FavoriteIcon,
+  ListAlt as ListIcon,
+  Schedule as ClockIcon,
+  EmojiEvents as TrophyIcon,
+  Notifications as BellIcon,
+  DarkMode as MoonIcon,
+  Calculate as CalculatorIcon,
+  Analytics as BarChartIcon,
+  Help as HelpCircleIcon,
+  Feedback as MessageCircleIcon,
+  Info as InfoIcon,
+  ExpandMore as ExpandMoreIcon,
+  CheckCircle as CheckCircleIcon,
+  AutoAwesome as SparklesIcon
+} from '@mui/icons-material';
 
 const PantallaPerfil = ({ navigation }) => {
+  const theme = useTheme();
   const [usuario, setUsuario] = useState({
     nombre: 'Ana García',
     email: 'ana.garcia@email.com',
     foto: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150',
     miembroDesde: 'Enero 2024',
     recetasGuardadas: 24,
-    listasCreadas: 8
+    listasCreadas: 8,
+    recetasCocinadas: 156
   });
 
   const [configuraciones, setConfiguraciones] = useState({
@@ -17,6 +71,10 @@ const PantallaPerfil = ({ navigation }) => {
     autoAjustePorciones: true,
     metricas: true
   });
+
+  const [logoutDialog, setLogoutDialog] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const recetasRecientes = [
     {
@@ -58,244 +116,549 @@ const PantallaPerfil = ({ navigation }) => {
       ...prev,
       [key]: !prev[key]
     }));
+    setSnackbarMessage('Configuración actualizada');
+    setSnackbarOpen(true);
   };
 
-  const cerrarSesion = () => {
-    const confirmacion = window.confirm('¿Estás seguro de que quieres cerrar sesión?');
-    if (confirmacion) {
-      alert('Sesión cerrada');
-      // navigation.navigate('Login')
-    }
+  const handleLogout = () => {
+    setLogoutDialog(false);
+    setSnackbarMessage('Sesión cerrada correctamente');
+    setSnackbarOpen(true);
+    // navigation.navigate('Login')
   };
 
-  const ConfiguracionItem = ({ icono: IconComponent, titulo, descripcion, valor, onToggle, color }) => (
-    <div className="relative flex items-center justify-between p-4 mb-2 bg-gradient-to-r from-white to-purple-50 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-purple-100">
-      <div className="flex items-center flex-1">
-        <div className={`p-2 rounded-full ${color} mr-3 shadow-md`}>
-          <IconComponent size={24} className="text-white" />
-        </div>
-        <div>
-          <p className="font-bold text-gray-800">{titulo}</p>
-          <p className="text-gray-600 text-sm">{descripcion}</p>
-        </div>
-      </div>
-      <label className="relative inline-flex items-center cursor-pointer">
-        <input
-          type="checkbox"
-          checked={valor}
-          onChange={onToggle}
-          className="sr-only peer"
-        />
-        <div className="w-12 h-6 bg-gradient-to-r from-gray-300 to-gray-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r from-purple-500 to-pink-500"></div>
-      </label>
-    </div>
+  // Función segura para obtener colores del tema
+  const getSafeColor = (color) => {
+    const safeColors = ['primary', 'secondary', 'error', 'warning', 'info', 'success'];
+    return safeColors.includes(color) ? color : 'primary';
+  };
+
+  const EstadisticaCard = ({ valor, label, color, icon: Icon }) => {
+    const safeColor = getSafeColor(color);
+    return (
+      <Paper 
+        elevation={3}
+        sx={{ 
+          p: 3, 
+          textAlign: 'center', 
+          borderRadius: 3,
+          background: `linear-gradient(135deg, ${alpha(theme.palette[safeColor].main, 0.1)} 0%, ${alpha(theme.palette[safeColor].main, 0.05)} 100%)`,
+          transition: 'all 0.3s ease-in-out',
+          '&:hover': {
+            transform: 'translateY(-4px)',
+            boxShadow: theme.shadows[6]
+          }
+        }}
+      >
+        <Avatar sx={{ bgcolor: `${safeColor}.main`, mx: 'auto', mb: 2 }}>
+          <Icon />
+        </Avatar>
+        <Typography variant="h4" fontWeight={800} color={`${safeColor}.main`}>
+          {valor}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" fontWeight={600}>
+          {label}
+        </Typography>
+      </Paper>
+    );
+  };
+
+  const RecetaCard = ({ receta, index }) => (
+    <Zoom in timeout={300 + index * 50}>
+      <Card
+        sx={{
+          flexShrink: 0,
+          width: 160,
+          borderRadius: 3,
+          border: 2,
+          borderColor: 'divider',
+          overflow: 'hidden',
+          transition: 'all 0.3s ease-in-out',
+          '&:hover': {
+            transform: 'scale(1.05)',
+            boxShadow: theme.shadows[8]
+          }
+        }}
+      >
+        <Box sx={{ position: 'relative', height: 100 }}>
+          <img 
+            src={receta.imagen} 
+            alt={receta.nombre}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          <Chip
+            label={receta.dificultad}
+            size="small"
+            sx={{
+              position: 'absolute',
+              top: 8,
+              right: 8,
+              bgcolor: 'primary.main',
+              color: 'white',
+              fontWeight: 600,
+              fontSize: '0.7rem'
+            }}
+          />
+        </Box>
+        <CardContent sx={{ p: 2 }}>
+          <Typography variant="subtitle2" fontWeight={600} noWrap sx={{ mb: 1 }}>
+            {receta.nombre}
+          </Typography>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Typography variant="caption" color="text.secondary">
+              {receta.fecha}
+            </Typography>
+            <Chip
+              label={receta.tiempo}
+              size="small"
+              variant="outlined"
+              sx={{ fontSize: '0.6rem' }}
+            />
+          </Stack>
+        </CardContent>
+      </Card>
+    </Zoom>
   );
 
-  const OpcionPerfil = ({ icono: IconComponent, titulo, onPress, color = 'bg-gradient-to-r from-purple-500 to-pink-500' }) => (
-    <button onClick={onPress} className="relative flex items-center p-4 mb-2 bg-gradient-to-r from-white to-purple-50 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] border border-purple-100 w-full group">
-      <div className={`p-2 rounded-full ${color} mr-3 shadow-md`}>
-        <IconComponent size={24} className="text-white" />
-      </div>
-      <span className="flex-1 text-left font-bold text-gray-800">{titulo}</span>
-      <svg className="w-5 h-5 text-purple-500 transform group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-      </svg>
-    </button>
-  );
-
-  const RecetaCard = ({ receta }) => (
-    <div className="relative flex-shrink-0 w-40 bg-gradient-to-br from-white to-purple-50 rounded-xl shadow-lg overflow-hidden border-2 border-purple-200 hover:border-purple-400 transition-all duration-300 hover:scale-105">
-      <div className="relative h-24 overflow-hidden">
-        <img 
-          src={receta.imagen} 
-          alt={receta.nombre}
-          className="w-full h-full object-cover"
+  const OpcionPerfil = ({ icon: Icon, titulo, onPress, color = 'primary' }) => {
+    const safeColor = getSafeColor(color);
+    return (
+      <ListItem
+        button
+        onClick={onPress}
+        sx={{
+          mb: 1,
+          borderRadius: 2,
+          border: 1,
+          borderColor: 'divider',
+          bgcolor: 'background.paper',
+          transition: 'all 0.3s ease-in-out',
+          '&:hover': {
+            transform: 'translateX(4px)',
+            bgcolor: alpha(theme.palette[safeColor].main, 0.05),
+            borderColor: theme.palette[safeColor].main
+          }
+        }}
+      >
+        <ListItemIcon>
+          <Avatar sx={{ bgcolor: `${safeColor}.main`, width: 40, height: 40 }}>
+            <Icon />
+          </Avatar>
+        </ListItemIcon>
+        <ListItemText 
+          primary={
+            <Typography variant="h6" fontWeight={600}>
+              {titulo}
+            </Typography>
+          }
         />
-        <div className="absolute top-2 right-2 bg-purple-500 text-white text-xs px-2 py-1 rounded-full font-bold">
-          {receta.dificultad}
-        </div>
-      </div>
-      <div className="p-3">
-        <p className="font-bold text-gray-800 text-sm mb-1 truncate">{receta.nombre}</p>
-        <div className="flex justify-between items-center">
-          <p className="text-xs text-gray-600">{receta.fecha}</p>
-          <p className="text-xs bg-pink-100 text-pink-700 px-2 py-1 rounded-full">{receta.tiempo}</p>
-        </div>
-      </div>
-    </div>
-  );
+        <ListItemSecondaryAction>
+          <IconButton edge="end">
+            <ExpandMoreIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
+    );
+  };
+
+  const ConfiguracionItem = ({ icon: Icon, titulo, descripcion, valor, onToggle, color = 'primary' }) => {
+    const safeColor = getSafeColor(color);
+    return (
+      <ListItem
+        sx={{
+          mb: 1,
+          borderRadius: 2,
+          border: 1,
+          borderColor: 'divider',
+          bgcolor: 'background.paper'
+        }}
+      >
+        <ListItemIcon>
+          <Avatar sx={{ bgcolor: `${safeColor}.main`, width: 40, height: 40 }}>
+            <Icon />
+          </Avatar>
+        </ListItemIcon>
+        <ListItemText 
+          primary={
+            <Typography variant="h6" fontWeight={600}>
+              {titulo}
+            </Typography>
+          }
+          secondary={descripcion}
+        />
+        <ListItemSecondaryAction>
+          <Switch
+            checked={valor}
+            onChange={onToggle}
+            color={safeColor}
+          />
+        </ListItemSecondaryAction>
+      </ListItem>
+    );
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-yellow-50">
-      {/* Efectos de fondo */}
-      <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-b-full"></div>
-      <div className="absolute bottom-0 right-0 w-64 h-64 bg-gradient-to-l from-yellow-400/20 to-pink-400/20 rounded-t-full"></div>
-      
+    <Box sx={{ bgcolor: 'grey.50', minHeight: '100vh' }}>
       {/* Header */}
-      <div className="relative flex items-center justify-between p-6 bg-white/80 backdrop-blur-md rounded-b-3xl shadow-lg border-b border-purple-200">
-        <div className="flex items-center">
-          <Sparkles className="text-purple-500 mr-2" size={28} />
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Mi Perfil</h1>
-        </div>
-        <button 
-          onClick={cerrarSesion} 
-          className="p-3 bg-gradient-to-r from-red-400 to-red-500 text-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:scale-110"
-        >
-          <LogOut size={20} />
-        </button>
-      </div>
-
-      <div className="relative max-w-4xl mx-auto pb-8 px-4 z-10">
-        {/* Información del usuario */}
-        <div className="relative flex items-center p-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-3xl shadow-2xl mt-6 mb-8 overflow-hidden">
-          <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full"></div>
-          <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white/10 rounded-full"></div>
+      <AppBar 
+        position="sticky" 
+        elevation={0}
+        sx={{ 
+          bgcolor: 'white',
+          borderBottom: 1,
+          borderColor: 'divider'
+        }}
+      >
+        <Toolbar sx={{ px: 3 }}>
+          <Avatar sx={{ bgcolor: 'primary.main', mr: 2 }}>
+            <SparklesIcon />
+          </Avatar>
           
-          <div className="relative border-4 border-white/30 rounded-full p-1 mr-5">
-            <img 
-              src={usuario.foto} 
-              alt="Foto de perfil"
-              className="w-24 h-24 rounded-full"
+          <Box sx={{ flexGrow: 1 }}>
+            <Typography 
+              variant="h5" 
+              component="h1" 
+              fontWeight={800}
+              sx={{
+                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
+            >
+              Mi Perfil
+            </Typography>
+          </Box>
+
+          <IconButton
+            onClick={() => setLogoutDialog(true)}
+            sx={{ 
+              border: 1,
+              borderColor: 'divider',
+              borderRadius: 2
+            }}
+          >
+            <LogoutIcon color="error" />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      <Container maxWidth="lg" sx={{ py: 3 }}>
+        {/* Información del usuario */}
+        <Paper 
+          elevation={6}
+          sx={{ 
+            p: 4, 
+            mb: 4, 
+            borderRadius: 3,
+            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+            color: 'white',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+        >
+          <Box sx={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, bgcolor: 'white', opacity: 0.1, borderRadius: '50%' }} />
+          <Box sx={{ position: 'absolute', bottom: -30, left: -30, width: 150, height: 150, bgcolor: 'white', opacity: 0.1, borderRadius: '50%' }} />
+          
+          <Stack direction="row" alignItems="center" spacing={3}>
+            <Avatar
+              src={usuario.foto}
+              sx={{ 
+                width: 100, 
+                height: 100, 
+                border: 4, 
+                borderColor: 'white',
+                boxShadow: theme.shadows[8]
+              }}
             />
-          </div>
-          <div className="flex-1">
-            <h2 className="text-2xl font-bold mb-1">{usuario.nombre}</h2>
-            <p className="mb-1 opacity-90">{usuario.email}</p>
-            <p className="text-sm opacity-80">Miembro desde {usuario.miembroDesde}</p>
-          </div>
-          <button className="relative flex items-center space-x-2 bg-white text-purple-600 px-4 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-            <Edit3 size={18} />
-            <span>Editar</span>
-          </button>
-        </div>
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography variant="h4" fontWeight={800} gutterBottom>
+                {usuario.nombre}
+              </Typography>
+              <Typography variant="body1" sx={{ opacity: 0.9 }} gutterBottom>
+                {usuario.email}
+              </Typography>
+              <Typography variant="body2" sx={{ opacity: 0.8 }}>
+                Miembro desde {usuario.miembroDesde}
+              </Typography>
+            </Box>
+            <Button
+              variant="contained"
+              startIcon={<EditIcon />}
+              sx={{
+                bgcolor: 'white',
+                color: 'primary.main',
+                fontWeight: 600,
+                borderRadius: 2,
+                '&:hover': {
+                  bgcolor: 'grey.100',
+                  transform: 'translateY(-2px)'
+                }
+              }}
+            >
+              Editar
+            </Button>
+          </Stack>
+        </Paper>
 
         {/* Estadísticas */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          <div className="bg-gradient-to-br from-purple-100 to-pink-100 p-4 rounded-2xl shadow-lg border border-purple-200 text-center transform hover:scale-105 transition-all duration-300">
-            <p className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{usuario.recetasGuardadas}</p>
-            <p className="text-gray-700 font-semibold mt-1">Recetas guardadas</p>
-          </div>
-          <div className="bg-gradient-to-br from-yellow-100 to-pink-100 p-4 rounded-2xl shadow-lg border border-yellow-200 text-center transform hover:scale-105 transition-all duration-300">
-            <p className="text-3xl font-bold bg-gradient-to-r from-yellow-600 to-pink-600 bg-clip-text text-transparent">{usuario.listasCreadas}</p>
-            <p className="text-gray-700 font-semibold mt-1">Listas creadas</p>
-          </div>
-          <div className="bg-gradient-to-br from-pink-100 to-purple-100 p-4 rounded-2xl shadow-lg border border-pink-200 text-center transform hover:scale-105 transition-all duration-300">
-            <p className="text-3xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">156</p>
-            <p className="text-gray-700 font-semibold mt-1">Recetas cocinadas</p>
-          </div>
-        </div>
+        <Grid container spacing={3} sx={{ mb: 4 }}>
+          <Grid item xs={6} md={3}>
+            <EstadisticaCard
+              valor={usuario.recetasGuardadas}
+              label="Recetas guardadas"
+              color="primary"
+              icon={FavoriteIcon}
+            />
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <EstadisticaCard
+              valor={usuario.listasCreadas}
+              label="Listas creadas"
+              color="secondary"
+              icon={ListIcon}
+            />
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <EstadisticaCard
+              valor={usuario.recetasCocinadas}
+              label="Recetas cocinadas"
+              color="success"
+              icon={CheckCircleIcon}
+            />
+          </Grid>
+          <Grid item xs={6} md={3}>
+            <EstadisticaCard
+              valor="12"
+              label="Logros obtenidos"
+              color="warning"
+              icon={TrophyIcon}
+            />
+          </Grid>
+        </Grid>
 
         {/* Recetas recientes */}
-        <div className="bg-white/80 backdrop-blur-md p-6 rounded-3xl shadow-xl border border-purple-100 mb-8">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Recetas Recientes</h2>
-            <button className="text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors">
+        <Paper elevation={3} sx={{ p: 4, borderRadius: 3, mb: 4 }}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
+            <Typography variant="h5" fontWeight={700}>
+              Recetas Recientes
+            </Typography>
+            <Button variant="text" color="primary">
               Ver todas
-            </button>
-          </div>
-          <div className="flex overflow-x-auto space-x-4 pb-4 scrollbar-thin scrollbar-thumb-purple-300 scrollbar-track-purple-100">
-            {recetasRecientes.map((receta) => (
-              <RecetaCard key={receta.id} receta={receta} />
+            </Button>
+          </Stack>
+          
+          <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2, pb: 2, scrollbarWidth: 'thin' }}>
+            {recetasRecientes.map((receta, index) => (
+              <RecetaCard key={receta.id} receta={receta} index={index} />
             ))}
-          </div>
-        </div>
+          </Box>
+        </Paper>
 
         {/* Opciones de perfil */}
-        <div className="bg-white/80 backdrop-blur-md p-6 rounded-3xl shadow-xl border border-purple-100 mb-8">
-          <h2 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">Mi Cuenta</h2>
-          <div className="space-y-2">
-            <OpcionPerfil
-              icono={Heart}
-              titulo="Mis favoritos"
-              onPress={() => alert('Mis favoritos')}
-              color="bg-gradient-to-r from-red-500 to-pink-500"
-            />
-            <OpcionPerfil
-              icono={List}
-              titulo="Mis listas de compras"
-              onPress={() => alert('Mis listas')}
-              color="bg-gradient-to-r from-green-500 to-teal-500"
-            />
-            <OpcionPerfil
-              icono={Clock}
-              titulo="Historial de recetas"
-              onPress={() => alert('Historial')}
-              color="bg-gradient-to-r from-blue-500 to-purple-500"
-            />
-            <OpcionPerfil
-              icono={Trophy}
-              titulo="Logros y metas"
-              onPress={() => alert('Logros')}
-              color="bg-gradient-to-r from-yellow-500 to-orange-500"
-            />
-          </div>
-        </div>
+        <Accordion 
+          elevation={3}
+          sx={{ 
+            mb: 3, 
+            borderRadius: 3,
+            '&:before': { display: 'none' }
+          }}
+        >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h5" fontWeight={700}>
+              Mi Cuenta
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ p: 0 }}>
+            <List>
+              <OpcionPerfil
+                icon={FavoriteIcon}
+                titulo="Mis favoritos"
+                onPress={() => setSnackbarMessage('Navegando a favoritos')}
+                color="error"
+              />
+              <OpcionPerfil
+                icon={ListIcon}
+                titulo="Mis listas de compras"
+                onPress={() => setSnackbarMessage('Navegando a listas')}
+                color="success"
+              />
+              <OpcionPerfil
+                icon={ClockIcon}
+                titulo="Historial de recetas"
+                onPress={() => setSnackbarMessage('Navegando a historial')}
+                color="info"
+              />
+              <OpcionPerfil
+                icon={TrophyIcon}
+                titulo="Logros y metas"
+                onPress={() => setSnackbarMessage('Navegando a logros')}
+                color="warning"
+              />
+            </List>
+          </AccordionDetails>
+        </Accordion>
 
         {/* Configuraciones */}
-        <div className="bg-white/80 backdrop-blur-md p-6 rounded-3xl shadow-xl border border-purple-100 mb-8">
-          <h2 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">Configuraciones</h2>
-          <div className="space-y-2">
-            <ConfiguracionItem
-              icono={Bell}
-              titulo="Notificaciones"
-              descripcion="Recibe alertas sobre tus recetas"
-              valor={configuraciones.notificaciones}
-              onToggle={() => toggleConfiguracion('notificaciones')}
-              color="bg-gradient-to-r from-purple-500 to-pink-500"
-            />
-            <ConfiguracionItem
-              icono={Moon}
-              titulo="Modo oscuro"
-              descripcion="Activar interfaz oscura"
-              valor={configuraciones.modoOscuro}
-              onToggle={() => toggleConfiguracion('modoOscuro')}
-              color="bg-gradient-to-r from-indigo-500 to-purple-500"
-            />
-            <ConfiguracionItem
-              icono={Calculator}
-              titulo="Ajuste automático"
-              descripcion="Ajustar ingredientes por porciones"
-              valor={configuraciones.autoAjustePorciones}
-              onToggle={() => toggleConfiguracion('autoAjustePorciones')}
-              color="bg-gradient-to-r from-green-500 to-teal-500"
-            />
-            <ConfiguracionItem
-              icono={BarChart}
-              titulo="Métricas"
-              descripcion="Ver información nutricional"
-              valor={configuraciones.metricas}
-              onToggle={() => toggleConfiguracion('metricas')}
-              color="bg-gradient-to-r from-blue-500 to-cyan-500"
-            />
-          </div>
-        </div>
+        <Accordion 
+          elevation={3}
+          sx={{ 
+            mb: 3, 
+            borderRadius: 3,
+            '&:before': { display: 'none' }
+          }}
+        >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h5" fontWeight={700}>
+              Configuraciones
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ p: 0 }}>
+            <List>
+              <ConfiguracionItem
+                icon={BellIcon}
+                titulo="Notificaciones"
+                descripcion="Recibe alertas sobre tus recetas"
+                valor={configuraciones.notificaciones}
+                onToggle={() => toggleConfiguracion('notificaciones')}
+                color="primary"
+              />
+              <ConfiguracionItem
+                icon={MoonIcon}
+                titulo="Modo oscuro"
+                descripcion="Activar interfaz oscura"
+                valor={configuraciones.modoOscuro}
+                onToggle={() => toggleConfiguracion('modoOscuro')}
+                color="secondary"
+              />
+              <ConfiguracionItem
+                icon={CalculatorIcon}
+                titulo="Ajuste automático"
+                descripcion="Ajustar ingredientes por porciones"
+                valor={configuraciones.autoAjustePorciones}
+                onToggle={() => toggleConfiguracion('autoAjustePorciones')}
+                color="success"
+              />
+              <ConfiguracionItem
+                icon={BarChartIcon}
+                titulo="Métricas"
+                descripcion="Ver información nutricional"
+                valor={configuraciones.metricas}
+                onToggle={() => toggleConfiguracion('metricas')}
+                color="info"
+              />
+            </List>
+          </AccordionDetails>
+        </Accordion>
 
         {/* Soporte y ayuda */}
-        <div className="bg-white/80 backdrop-blur-md p-6 rounded-3xl shadow-xl border border-purple-100">
-          <h2 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">Soporte</h2>
-          <div className="space-y-2">
-            <OpcionPerfil
-              icono={HelpCircle}
-              titulo="Centro de ayuda"
-              onPress={() => alert('Centro de ayuda')}
-              color="bg-gradient-to-r from-cyan-500 to-blue-500"
-            />
-            <OpcionPerfil
-              icono={MessageCircle}
-              titulo="Enviar comentarios"
-              onPress={() => alert('Enviar comentarios')}
-              color="bg-gradient-to-r from-orange-500 to-red-500"
-            />
-            <OpcionPerfil
-              icono={Info}
-              titulo="Acerca de MiSabor"
-              onPress={() => alert('MiSabor v1.0.0')}
-              color="bg-gradient-to-r from-gray-600 to-gray-800"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+        <Accordion 
+          elevation={3}
+          sx={{ 
+            borderRadius: 3,
+            '&:before': { display: 'none' }
+          }}
+        >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h5" fontWeight={700}>
+              Soporte
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ p: 0 }}>
+            <List>
+              <OpcionPerfil
+                icon={HelpCircleIcon}
+                titulo="Centro de ayuda"
+                onPress={() => setSnackbarMessage('Abriendo centro de ayuda')}
+                color="info"
+              />
+              <OpcionPerfil
+                icon={MessageCircleIcon}
+                titulo="Enviar comentarios"
+                onPress={() => setSnackbarMessage('Abriendo formulario de comentarios')}
+                color="warning"
+              />
+              <OpcionPerfil
+                icon={InfoIcon}
+                titulo="Acerca de MiSabor"
+                onPress={() => setSnackbarMessage('MiSabor v1.0.0')}
+                color="primary"
+              />
+            </List>
+          </AccordionDetails>
+        </Accordion>
+      </Container>
+
+      {/* Dialog de confirmación de logout */}
+      <Dialog
+        open={logoutDialog}
+        onClose={() => setLogoutDialog(false)}
+        PaperProps={{
+          sx: { borderRadius: 3 }
+        }}
+      >
+        <DialogTitle>
+          <Typography variant="h5" fontWeight={700}>
+            Cerrar sesión
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            ¿Estás seguro de que quieres cerrar sesión?
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ p: 3 }}>
+          <Button 
+            onClick={() => setLogoutDialog(false)}
+            sx={{ borderRadius: 2 }}
+          >
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleLogout}
+            variant="contained"
+            color="error"
+            sx={{ borderRadius: 2 }}
+          >
+            Cerrar sesión
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Snackbar para notificaciones */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={() => setSnackbarOpen(false)} 
+          severity="success"
+          sx={{ borderRadius: 2 }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+
+      {/* FAB para editar perfil */}
+      <Fab
+        color="primary"
+        sx={{
+          position: 'fixed',
+          bottom: 24,
+          right: 24,
+          background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+          boxShadow: theme.shadows[8],
+          '&:hover': {
+            transform: 'scale(1.05)'
+          }
+        }}
+        onClick={() => setSnackbarMessage('Editando perfil')}
+      >
+        <EditIcon />
+      </Fab>
+    </Box>
   );
 };
 

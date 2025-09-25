@@ -1,7 +1,39 @@
 import React, { useState } from 'react';
-import { User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import {
+  Box,
+  Container,
+  Paper,
+  TextField,
+  Button,
+  Typography,
+  Avatar,
+  IconButton,
+  InputAdornment,
+  Divider,
+  Stack,
+  Fade,
+  Zoom,
+  useTheme,
+  Alert,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Snackbar
+} from '@mui/material';
+import {
+  Person as PersonIcon,
+  Email as EmailIcon,
+  Lock as LockIcon,
+  Visibility as VisibilityIcon,
+  VisibilityOff as VisibilityOffIcon,
+  Google as GoogleIcon,
+  Facebook as FacebookIcon,
+  Restaurant as RestaurantIcon
+} from '@mui/icons-material';
 
 const PantallaLogin = ({ navigation }) => {
+  const theme = useTheme();
   const [esLogin, setEsLogin] = useState(true);
   const [formulario, setFormulario] = useState({
     email: '',
@@ -10,207 +42,385 @@ const PantallaLogin = ({ navigation }) => {
     confirmarPassword: ''
   });
   const [mostrarPassword, setMostrarPassword] = useState(false);
+  const [errorDialog, setErrorDialog] = useState({ open: false, message: '' });
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  const handleCambio = (campo, valor) => {
+  const handleCambio = (campo) => (event) => {
     setFormulario(prev => ({
       ...prev,
-      [campo]: valor
+      [campo]: event.target.value
     }));
+  };
+
+  const validarFormulario = () => {
+    const { email, password, nombre, confirmarPassword } = formulario;
+
+    if (!email || !password) {
+      setErrorDialog({ open: true, message: 'Por favor completa todos los campos' });
+      return false;
+    }
+
+    if (!esLogin) {
+      if (!nombre) {
+        setErrorDialog({ open: true, message: 'Por favor ingresa tu nombre' });
+        return false;
+      }
+      if (password !== confirmarPassword) {
+        setErrorDialog({ open: true, message: 'Las contraseñas no coinciden' });
+        return false;
+      }
+    }
+
+    return true;
   };
 
   const handleEnvio = (e) => {
     e.preventDefault();
-    const { email, password, nombre, confirmarPassword } = formulario;
+    
+    if (!validarFormulario()) return;
 
-    if (!email || !password) {
-      alert('Por favor completa todos los campos');
-      return;
-    }
-
-    if (!esLogin && password !== confirmarPassword) {
-      alert('Las contraseñas no coinciden');
-      return;
-    }
-
-    if (!esLogin && !nombre) {
-      alert('Por favor ingresa tu nombre');
-      return;
-    }
-
-    // Simulación de autenticación exitosa
     const mensaje = esLogin ? 'Inicio de sesión exitoso' : 'Cuenta creada exitosamente';
-    alert(mensaje);
+    setSnackbarMessage(mensaje);
+    setSnackbarOpen(true);
     // navigation.navigate('Inicio')
   };
 
   const loginConRedSocial = (redSocial) => {
-    alert(`Iniciar sesión con ${redSocial}`);
+    setSnackbarMessage(`Iniciando sesión con ${redSocial}`);
+    setSnackbarOpen(true);
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        {/* Logo y título */}
-        <div className="text-center">
-          <img 
-            src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=100"
-            alt="Logo MiSabor"
-            className="mx-auto h-20 w-20 rounded-full"
-          />
-          <h1 className="mt-4 text-3xl font-bold text-teal-500">MiSabor</h1>
-          <p className="text-gray-600">SaborHogar</p>
-        </div>
-
-        {/* Formulario */}
-        <div className="bg-white p-8 rounded-2xl shadow-lg">
-          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-            {esLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
-          </h2>
-
-          <form onSubmit={handleEnvio} className="space-y-4">
-            {!esLogin && (
-              <div className="relative">
-                <User size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input
-                  type="text"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  placeholder="Nombre completo"
-                  value={formulario.nombre}
-                  onChange={(e) => handleCambio('nombre', e.target.value)}
-                />
-              </div>
-            )}
-
-            <div className="relative">
-              <Mail size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="email"
-                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                placeholder="Correo electrónico"
-                value={formulario.email}
-                onChange={(e) => handleCambio('email', e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="relative">
-              <Lock size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type={mostrarPassword ? 'text' : 'password'}
-                className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                placeholder="Contraseña"
-                value={formulario.password}
-                onChange={(e) => handleCambio('password', e.target.value)}
-                required
-              />
-              <button
-                type="button"
+  const CampoFormulario = ({ icon: Icon, tipo, placeholder, valor, onChange, requerido = false }) => (
+    <TextField
+      fullWidth
+      type={tipo}
+      placeholder={placeholder}
+      value={valor}
+      onChange={onChange}
+      required={requerido}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <Icon color="primary" />
+          </InputAdornment>
+        ),
+        ...(tipo === 'password' && {
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
                 onClick={() => setMostrarPassword(!mostrarPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                edge="end"
               >
-                {mostrarPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-            </div>
+                {mostrarPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              </IconButton>
+            </InputAdornment>
+          )
+        })
+      }}
+      sx={{
+        mb: 3,
+        '& .MuiOutlinedInput-root': {
+          borderRadius: 3,
+          bgcolor: 'grey.50',
+          '&:hover fieldset': {
+            borderColor: 'primary.main',
+          },
+          '&.Mui-focused fieldset': {
+            borderColor: 'primary.main',
+            borderWidth: 2,
+          },
+        }
+      }}
+    />
+  );
 
-            {!esLogin && (
-              <div className="relative">
-                <Lock size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input
-                  type={mostrarPassword ? 'text' : 'password'}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  placeholder="Confirmar contraseña"
-                  value={formulario.confirmarPassword}
-                  onChange={(e) => handleCambio('confirmarPassword', e.target.value)}
-                />
-              </div>
-            )}
+  const BotonRedSocial = ({ icon: Icon, texto, onClick, color }) => (
+    <Button
+      fullWidth
+      variant="outlined"
+      startIcon={<Icon />}
+      onClick={onClick}
+      sx={{
+        py: 1.5,
+        borderRadius: 3,
+        borderColor: 'divider',
+        color: 'text.primary',
+        textTransform: 'none',
+        fontWeight: 600,
+        '&:hover': {
+          borderColor: color,
+          bgcolor: `${color}08`,
+          transform: 'translateY(-1px)',
+        },
+        transition: 'all 0.3s ease-in-out'
+      }}
+    >
+      {texto}
+    </Button>
+  );
 
-            {esLogin && (
-              <div className="text-right">
-                <button
-                  type="button"
-                  className="text-teal-500 text-sm font-semibold hover:text-teal-600"
-                >
-                  ¿Olvidaste tu contraseña?
-                </button>
-              </div>
-            )}
+  return (
+    <Box 
+      sx={{ 
+        minHeight: '100vh', 
+        bgcolor: 'grey.50',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        py: 4,
+        px: 2
+      }}
+    >
+      <Container maxWidth="sm">
+        <Zoom in timeout={500}>
+          <Box sx={{ textAlign: 'center', mb: 4 }}>
+            <Avatar
+              src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=100"
+              sx={{ 
+                width: 80, 
+                height: 80, 
+                mx: 'auto', 
+                mb: 2,
+                boxShadow: theme.shadows[4]
+              }}
+            />
+            <Typography 
+              variant="h3" 
+              fontWeight={800}
+              sx={{
+                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                mb: 0.5
+              }}
+            >
+              MiSabor
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              SaborHogar
+            </Typography>
+          </Box>
+        </Zoom>
 
-            <button
-              type="submit"
-              className="w-full bg-teal-500 text-white py-3 rounded-lg font-bold hover:bg-teal-600 transition-colors"
+        <Fade in timeout={700}>
+          <Paper 
+            elevation={6}
+            sx={{ 
+              p: 4, 
+              borderRadius: 3,
+              background: 'white'
+            }}
+          >
+            <Typography 
+              variant="h4" 
+              fontWeight={700} 
+              textAlign="center" 
+              color="text.primary"
+              sx={{ mb: 4 }}
             >
               {esLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
-            </button>
-          </form>
+            </Typography>
 
-          {/* Divisor */}
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">o continúa con</span>
-            </div>
-          </div>
+            <form onSubmit={handleEnvio}>
+              <Stack spacing={3}>
+                {!esLogin && (
+                  <CampoFormulario
+                    icon={PersonIcon}
+                    tipo="text"
+                    placeholder="Nombre completo"
+                    valor={formulario.nombre}
+                    onChange={handleCambio('nombre')}
+                    requerido
+                  />
+                )}
 
-          {/* Redes sociales */}
-          <div className="grid grid-cols-2 gap-3">
-            <button 
-              onClick={() => loginConRedSocial('Google')}
-              className="flex items-center justify-center px-4 py-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              <img 
-                src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
-                alt="Google"
-                className="w-5 h-5 mr-2"
+                <CampoFormulario
+                  icon={EmailIcon}
+                  tipo="email"
+                  placeholder="Correo electrónico"
+                  valor={formulario.email}
+                  onChange={handleCambio('email')}
+                  requerido
+                />
+
+                <CampoFormulario
+                  icon={LockIcon}
+                  tipo={mostrarPassword ? 'text' : 'password'}
+                  placeholder="Contraseña"
+                  valor={formulario.password}
+                  onChange={handleCambio('password')}
+                  requerido
+                />
+
+                {!esLogin && (
+                  <CampoFormulario
+                    icon={LockIcon}
+                    tipo={mostrarPassword ? 'text' : 'password'}
+                    placeholder="Confirmar contraseña"
+                    valor={formulario.confirmarPassword}
+                    onChange={handleCambio('confirmarPassword')}
+                    requerido
+                  />
+                )}
+
+                {esLogin && (
+                  <Box textAlign="right">
+                    <Button 
+                      variant="text" 
+                      size="small"
+                      sx={{ 
+                        textTransform: 'none',
+                        fontWeight: 600
+                      }}
+                    >
+                      ¿Olvidaste tu contraseña?
+                    </Button>
+                  </Box>
+                )}
+
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                  sx={{
+                    py: 1.5,
+                    borderRadius: 3,
+                    fontWeight: 700,
+                    fontSize: '1.1rem',
+                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+                    boxShadow: theme.shadows[4],
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                      boxShadow: theme.shadows[8],
+                    },
+                    transition: 'all 0.3s ease-in-out'
+                  }}
+                >
+                  {esLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
+                </Button>
+              </Stack>
+            </form>
+
+            {/* Divisor */}
+            <Box sx={{ position: 'relative', my: 4 }}>
+              <Divider />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  bgcolor: 'white',
+                  px: 2
+                }}
+              >
+                <Typography variant="body2" color="text.secondary">
+                  o continúa con
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Redes sociales */}
+            <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
+              <BotonRedSocial
+                icon={GoogleIcon}
+                texto="Google"
+                onClick={() => loginConRedSocial('Google')}
+                color="#DB4437"
               />
-              <span className="text-gray-700 font-semibold text-sm">Google</span>
-            </button>
-
-            <button 
-              onClick={() => loginConRedSocial('Facebook')}
-              className="flex items-center justify-center px-4 py-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              <img 
-                src="https://cdn-icons-png.flaticon.com/512/124/124010.png"
-                alt="Facebook"
-                className="w-5 h-5 mr-2"
+              <BotonRedSocial
+                icon={FacebookIcon}
+                texto="Facebook"
+                onClick={() => loginConRedSocial('Facebook')}
+                color="#4267B2"
               />
-              <span className="text-gray-700 font-semibold text-sm">Facebook</span>
-            </button>
-          </div>
+            </Stack>
 
-          {/* Cambiar entre login y registro */}
-          <div className="text-center mt-6">
-            <span className="text-gray-600 text-sm">
-              {esLogin ? '¿No tienes una cuenta?' : '¿Ya tienes una cuenta?'}
-            </span>
-            <button
-              type="button"
-              onClick={() => setEsLogin(!esLogin)}
-              className="ml-1 text-teal-500 font-bold text-sm hover:text-teal-600"
-            >
-              {esLogin ? 'Regístrate' : 'Inicia sesión'}
-            </button>
-          </div>
-        </div>
+            {/* Cambiar entre login y registro */}
+            <Box textAlign="center">
+              <Typography variant="body2" color="text.secondary" display="inline">
+                {esLogin ? '¿No tienes una cuenta?' : '¿Ya tienes una cuenta?'}
+              </Typography>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setEsLogin(!esLogin)}
+                sx={{ 
+                  ml: 1,
+                  textTransform: 'none',
+                  fontWeight: 700
+                }}
+              >
+                {esLogin ? 'Regístrate' : 'Inicia sesión'}
+              </Button>
+            </Box>
+          </Paper>
+        </Fade>
 
         {/* Información adicional */}
-        <div className="text-center px-4">
-          <p className="text-xs text-gray-600 leading-4">
-            Al {esLogin ? 'iniciar sesión' : 'registrarte'}, aceptas nuestros{' '}
-            <button className="text-teal-500 font-semibold hover:text-teal-600">
-              Términos de servicio
-            </button>{' '}
-            y{' '}
-            <button className="text-teal-500 font-semibold hover:text-teal-600">
-              Política de privacidad
-            </button>
-          </p>
-        </div>
-      </div>
-    </div>
+        <Fade in timeout={900}>
+          <Box textAlign="center" sx={{ mt: 3, px: 2 }}>
+            <Typography variant="caption" color="text.secondary" lineHeight={1.4}>
+              Al {esLogin ? 'iniciar sesión' : 'registrarte'}, aceptas nuestros{' '}
+              <Button variant="text" size="small" sx={{ textTransform: 'none', fontWeight: 600 }}>
+                Términos de servicio
+              </Button>{' '}
+              y{' '}
+              <Button variant="text" size="small" sx={{ textTransform: 'none', fontWeight: 600 }}>
+                Política de privacidad
+              </Button>
+            </Typography>
+          </Box>
+        </Fade>
+      </Container>
+
+      {/* Dialog de error */}
+      <Dialog
+        open={errorDialog.open}
+        onClose={() => setErrorDialog({ open: false, message: '' })}
+        PaperProps={{
+          sx: { borderRadius: 3 }
+        }}
+      >
+        <DialogTitle>
+          <Typography variant="h6" fontWeight={700}>
+            Error de validación
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            {errorDialog.message}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button 
+            onClick={() => setErrorDialog({ open: false, message: '' })}
+            variant="contained"
+            sx={{ borderRadius: 2 }}
+          >
+            Entendido
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Snackbar para notificaciones */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={() => setSnackbarOpen(false)} 
+          severity="success"
+          sx={{ borderRadius: 2 }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+    </Box>
   );
 };
 
