@@ -1991,7 +1991,7 @@ const App = () => {
       name: 'Perfil de Usuario',
       component: <MockupPerfil />,
       description: 'Personalización y configuración avanzada en la pantalla de perfil podras ver y editar tu información personal, estadísticas de uso, recetas guardadas y listas de compras ademas de opciones para configurar notificaciones, modo oscuro y cerrar sesión',
-      path: '/perfil',
+      path: '/vista4',
       icon: <PersonIcon />,
       color: 'primary'
     }
@@ -2724,6 +2724,381 @@ const App = () => {
         </Container>
       </Box>
 
+         {/* Sección de APIs a Utilizar */}
+      <Box id="apis" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
+        <Container maxWidth="lg">
+          <Box sx={{ textAlign: 'center', mb: 8 }}>
+            <Chip label="Integración de APIs" color="primary" sx={{ mb: 2, fontWeight: 600 }} />
+            <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 800 }}>
+              APIs para Potenciar MiSabor
+            </Typography>
+            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 800, mx: 'auto' }}>
+              Integración con servicios externos para enriquecer la experiencia culinaria
+            </Typography>
+          </Box>
+
+          <Grid container spacing={4}>
+            {/* APIs Principales de Recetas */}
+            <Grid item xs={12} md={6}>
+              <Card elevation={4} sx={{ borderRadius: 4, height: '100%' }}>
+                <CardContent sx={{ p: 4 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                    <RestaurantMenuIcon color="primary" sx={{ mr: 2, fontSize: 32 }} />
+                    <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                      APIs de Recetas
+                    </Typography>
+                  </Box>
+                  
+                  <Stack spacing={3}>
+                    {[
+                      {
+                        nombre: "Spoonacular API",
+                        desc: "Base de datos masiva con +365K recetas, información nutricional y búsqueda por ingredientes",
+                        caracteristicas: ["Búsqueda avanzada", "Información nutricional", "Instrucciones paso a paso", "Imágenes de recetas"],
+                        precio: "Freemium (150 puntos/día gratis)",
+                        enlace: "spoonacular.com/food-api"
+                      },
+                      {
+                        nombre: "Edamam API",
+                        desc: "API de nutrición y análisis de recetas con datos detallados de ingredientes",
+                        caracteristicas: ["Análisis nutricional", "Búsqueda por dieta", "Planificación de comidas", "Base de alimentos"],
+                        precio: "Freemium (10K requests/mes gratis)",
+                        enlace: "developer.edamam.com"
+                      },
+                      {
+                        nombre: "The Meal DB",
+                        desc: "API gratuita con recetas e imágenes de comidas de todo el mundo",
+                        caracteristicas: ["Completamente gratuita", "Recetas internacionales", "Categorías organizadas", "Búsqueda por área"],
+                        precio: "Gratuita",
+                        enlace: "themealdb.com/api.php"
+                      }
+                    ].map((api, index) => (
+                      <Paper key={index} elevation={2} sx={{ p: 2, borderRadius: 2 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 600, color: 'primary.main' }}>
+                          {api.nombre}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                          {api.desc}
+                        </Typography>
+                        <Stack direction="row" spacing={0.5} sx={{ mb: 1, flexWrap: 'wrap' }}>
+                          {api.caracteristicas.map((caract, i) => (
+                            <Chip 
+                              key={i}
+                              label={caract} 
+                              size="small" 
+                              variant="outlined"
+                              sx={{ fontSize: '0.7rem', mb: 0.5 }}
+                            />
+                          ))}
+                        </Stack>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <Chip 
+                            label={api.precio} 
+                            size="small" 
+                            color={api.precio === "Gratuita" ? "success" : "primary"}
+                          />
+                          <Typography variant="caption" color="primary" sx={{ fontWeight: 600 }}>
+                            {api.enlace}
+                          </Typography>
+                        </Box>
+                      </Paper>
+                    ))}
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            {/* APIs Complementarias */}
+            <Grid item xs={12} md={6}>
+              <Card elevation={4} sx={{ borderRadius: 4, height: '100%' }}>
+                <CardContent sx={{ p: 4 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                    <LocalGroceryStoreIcon color="primary" sx={{ mr: 2, fontSize: 32 }} />
+                    <Typography variant="h4" sx={{ fontWeight: 700 }}>
+                      APIs de Comercio y Nutrición
+                    </Typography>
+                  </Box>
+
+                  <Stack spacing={3}>
+                    {[
+                      {
+                        categoria: "Listas de Compras",
+                        apis: [
+                          {
+                            nombre: "Google Shopping API",
+                            desc: "Integración con tiendas locales y precios en tiempo real",
+                            uso: "Comparar precios de ingredientes",
+                            complejidad: "Media"
+                          },
+                          {
+                            nombre: "Instacart API",
+                            desc: "Pedidos de supermercado directamente desde la app",
+                            uso: "Compra directa de ingredientes",
+                            complejidad: "Alta"
+                          }
+                        ]
+                      },
+                      {
+                        categoria: "Nutrición y Salud",
+                        apis: [
+                          {
+                            nombre: "USDA FoodData Central",
+                            desc: "Base de datos oficial de nutrientes del gobierno de EE.UU.",
+                            uso: "Información nutricional precisa",
+                            complejidad: "Baja"
+                          },
+                          {
+                            nombre: "Nutritionix API",
+                            desc: "Base de datos nutricional con información de restaurantes",
+                            uso: "Análisis de comidas y calorías",
+                            complejidad: "Media"
+                          }
+                        ]
+                      },
+                      {
+                        categoria: "Reconocimiento de Imágenes",
+                        apis: [
+                          {
+                            nombre: "Google Vision AI",
+                            desc: "Reconocimiento de ingredientes desde fotos",
+                            uso: "Identificar alimentos con la cámara",
+                            complejidad: "Media"
+                          },
+                          {
+                            nombre: "Clarifai Food Model",
+                            desc: "Modelo especializado en reconocimiento de alimentos",
+                            uso: "Clasificación de ingredientes por imagen",
+                            complejidad: "Media"
+                          }
+                        ]
+                      }
+                    ].map((categoria, index) => (
+                      <Box key={index}>
+                        <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'secondary.main' }}>
+                          {categoria.categoria}
+                        </Typography>
+                        <Stack spacing={2}>
+                          {categoria.apis.map((api, i) => (
+                            <Paper key={i} elevation={1} sx={{ p: 2, borderRadius: 2 }}>
+                              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+                                <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                                  {api.nombre}
+                                </Typography>
+                                <Chip 
+                                  label={api.complejidad} 
+                                  size="small" 
+                                  color={
+                                    api.complejidad === "Baja" ? "success" : 
+                                    api.complejidad === "Media" ? "warning" : "error"
+                                  }
+                                />
+                              </Box>
+                              <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                                {api.desc}
+                              </Typography>
+                              <Typography variant="caption" display="block" color="primary">
+                                💡 {api.uso}
+                              </Typography>
+                            </Paper>
+                          ))}
+                        </Stack>
+                      </Box>
+                    ))}
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+
+          {/* Plan de Implementación */}
+          <Paper elevation={4} sx={{ p: 5, mt: 6, borderRadius: 4 }}>
+            <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, mb: 3, display: 'flex', alignItems: 'center' }}>
+              <IntegrationInstructionsIcon sx={{ mr: 2, color: 'primary.main' }} />
+              Plan de Implementación por Fases
+            </Typography>
+            
+            <Stepper orientation={isMobile ? "vertical" : "horizontal"} activeStep={-1}>
+              {[
+                {
+                  label: 'Fase 1 - MVP',
+                  description: 'Spoonacular API para búsqueda básica de recetas',
+                  apis: ['Spoonacular (Free Tier)', 'The Meal DB']
+                },
+                {
+                  label: 'Fase 2 - Nutrición',
+                  description: 'Integración de análisis nutricional avanzado',
+                  apis: ['Edamam API', 'USDA FoodData']
+                },
+                {
+                  label: 'Fase 3 - Comercio',
+                  description: 'Funcionalidades de compra y listas inteligentes',
+                  apis: ['Google Shopping API', 'Nutritionix']
+                },
+                {
+                  label: 'Fase 4 - IA',
+                  description: 'Reconocimiento de imágenes y recomendaciones',
+                  apis: ['Google Vision AI', 'Clarifai']
+                }
+              ].map((step, index) => (
+                <Step key={step.label}>
+                  <StepLabel>
+                    <Typography variant="h6" sx={{ fontWeight: 600 }}>{step.label}</Typography>
+                  </StepLabel>
+                  <StepContent>
+                    <Typography variant="body1" paragraph>{step.description}</Typography>
+                    <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
+                      {step.apis.map((api, i) => (
+                        <Chip key={i} label={api} size="small" color="primary" variant="outlined" />
+                      ))}
+                    </Stack>
+                  </StepContent>
+                </Step>
+              ))}
+            </Stepper>
+          </Paper>
+
+          {/* Consideraciones Técnicas */}
+          <Grid container spacing={4} sx={{ mt: 4 }}>
+            <Grid item xs={12} md={6}>
+              <Card elevation={3} sx={{ borderRadius: 3 }}>
+                <CardContent sx={{ p: 4 }}>
+                  <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, display: 'flex', alignItems: 'center' }}>
+                    <SecurityIcon color="primary" sx={{ mr: 2 }} />
+                    Consideraciones de Seguridad
+                  </Typography>
+                  <Stack spacing={2}>
+                    {[
+                      "Almacenar API keys en variables de entorno",
+                      "Implementar rate limiting para evitar abusos",
+                      "Usar HTTPS para todas las comunicaciones",
+                      "Validar y sanitizar datos de entrada",
+                      "Implementar timeout en requests externos",
+                      "Manejo adecuado de errores y fallos"
+                    ].map((item, index) => (
+                      <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <CheckCircleIcon color="success" sx={{ mr: 2, fontSize: '1.2rem' }} />
+                        <Typography variant="body2">{item}</Typography>
+                      </Box>
+                    ))}
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+            
+            <Grid item xs={12} md={6}>
+              <Card elevation={3} sx={{ borderRadius: 3, bgcolor: 'primary.main', color: 'white' }}>
+                <CardContent sx={{ p: 4 }}>
+                  <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, display: 'flex', alignItems: 'center' }}>
+                    <SpeedIcon sx={{ mr: 2 }} />
+                    Optimización de Rendimiento
+                  </Typography>
+                  <Stack spacing={2}>
+                    {[
+                      "Cache de respuestas de API (1-24 horas)",
+                      "Lazy loading de imágenes de recetas",
+                      "Paginación en resultados de búsqueda",
+                      "Compresión de datos en tránsito",
+                      "Uso de CDN para assets estáticos",
+                      "Manejo offline de datos básicos"
+                    ].map((item, index) => (
+                      <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <CheckCircleIcon sx={{ mr: 2, fontSize: '1.2rem' }} />
+                        <Typography variant="body2">{item}</Typography>
+                      </Box>
+                    ))}
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+
+          {/* Ejemplo de Implementación */}
+          <Paper elevation={4} sx={{ p: 4, mt: 6, borderRadius: 4 }}>
+            <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
+              Ejemplo de Implementación: Spoonacular API
+            </Typography>
+            
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={6}>
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                  Endpoints Principales
+                </Typography>
+                <TableContainer component={Paper} elevation={2}>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell><strong>Endpoint</strong></TableCell>
+                        <TableCell><strong>Propósito</strong></TableCell>
+                        <TableCell><strong>Método</strong></TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {[
+                        { endpoint: '/recipes/complexSearch', purpose: 'Búsqueda avanzada', method: 'GET' },
+                        { endpoint: '/recipes/{id}/information', purpose: 'Detalle de receta', method: 'GET' },
+                        { endpoint: '/recipes/findByIngredients', purpose: 'Búsqueda por ingredientes', method: 'GET' },
+                        { endpoint: '/recipes/analyze', purpose: 'Análisis nutricional', method: 'POST' }
+                      ].map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell>
+                            <Typography variant="caption" fontFamily="monospace">
+                              {row.endpoint}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>{row.purpose}</TableCell>
+                          <TableCell>
+                            <Chip label={row.method} size="small" color="primary" />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
+              
+              <Grid item xs={12} md={6}>
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                  Ejemplo de Código React Native
+                </Typography>
+                <Paper elevation={2} sx={{ p: 3, bgcolor: 'grey.900', color: 'white', fontFamily: 'monospace', fontSize: '0.8rem', borderRadius: 2 }}>
+                  <Typography variant="body2" component="pre" sx={{ whiteSpace: 'pre-wrap' }}>
+{`// Búsqueda de recetas
+const searchRecipes = async (query) => {
+  try {
+    const response = await fetch(
+      \`https://api.spoonacular.com/recipes/complexSearch?query=\${query}&apiKey=\${API_KEY}\`
+    );
+    const data = await response.json();
+    return data.results;
+  } catch (error) {
+    console.error('Error fetching recipes:', error);
+    return [];
+  }
+};
+
+// Detalle de receta
+const getRecipeDetails = async (recipeId) => {
+  try {
+    const response = await fetch(
+      \`https://api.spoonacular.com/recipes/\${recipeId}/information?apiKey=\${API_KEY}\`
+    );
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching recipe details:', error);
+    return null;
+  }
+};`}
+                  </Typography>
+                </Paper>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Container>
+      </Box>
+
+      {/* Sección de Introducción (se mantiene igual) */}
+      <Box id="introduccion" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
+      </Box>
       {/* Sección de Vistas de la App */}
       <Box id="vistas" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
         <Container maxWidth="xl">
@@ -2736,6 +3111,8 @@ const App = () => {
               Explora el flujo completo de navegación de MiSabor a través de nuestras 5 pantallas principales
             </Typography>
           </Box>
+
+        
 
           {/* Selector de Vistas */}
           <Paper elevation={4} sx={{ p: 4, mb: 6, borderRadius: 4 }}>
