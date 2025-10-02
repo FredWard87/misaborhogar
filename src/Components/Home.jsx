@@ -2910,288 +2910,360 @@ const App = () => {
             </Grid>
           </Grid>
 
-         {/* Plan de Implementación */}
+         {/* Plan de Implementación Detallado */}
 <Paper elevation={4} sx={{ p: 5, mt: 6, borderRadius: 4 }}>
   <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, mb: 3, display: 'flex', alignItems: 'center' }}>
     <IntegrationInstructionsIcon sx={{ mr: 2, color: 'primary.main' }} />
     Plan de Implementación por Fases
   </Typography>
   
-  <Stepper orientation={isMobile ? "vertical" : "horizontal"} activeStep={-1}>
-    {[
-      {
-        label: 'Fase 1 - MVP',
-        description: 'Spoonacular API para búsqueda básica de recetas',
-        apis: ['Spoonacular (Free Tier)', 'The Meal DB'],
-        duracion: '2-3 semanas',
-        entregables: [
-          'Búsqueda básica de recetas por nombre',
-          'Visualización de recetas con ingredientes',
-          'Listado de pasos de preparación',
-          'Funcionalidad de favoritos local'
-        ],
-        objetivosTecnicos: [
-          'Integración inicial con Spoonacular API',
-          'Manejo de estado local con Redux/Context',
-          'Navegación básica entre pantallas',
-          'Cache simple de recetas'
-        ],
-        metricasExito: [
-          'Tiempo de respuesta < 2 segundos',
-          '95% de disponibilidad de API',
-          'Interfaz responsive en dispositivos móviles'
-        ]
-      },
-      {
-        label: 'Fase 2 - Nutrición',
-        description: 'Integración de análisis nutricional avanzado',
-        apis: ['Edamam API', 'USDA FoodData'],
-        duracion: '3-4 semanas',
-        entregables: [
-          'Análisis nutricional detallado por receta',
-          'Calculadora de calorías y macronutrientes',
-          'Recomendaciones dietéticas personalizadas',
-          'Seguimiento de objetivos nutricionales'
-        ],
-        objetivosTecnicos: [
-          'Integración con múltiples APIs nutricionales',
-          'Algoritmos de cálculo de porciones',
-          'Base de datos local de perfiles nutricionales',
-          'Sincronización en la nube'
-        ],
-        metricasExito: [
-          'Precisión nutricional > 90%',
-          'Cálculo de porciones en tiempo real',
-          'Soporte para 10+ dietas especiales'
-        ]
-      },
-      {
-        label: 'Fase 3 - Comercio',
-        description: 'Funcionalidades de compra y listas inteligentes',
-        apis: ['Google Shopping API', 'Nutritionix'],
-        duracion: '4-5 semanas',
-        entregables: [
-          'Listas de compras inteligentes automatizadas',
-          'Comparación de precios entre supermercados',
-          'Integración con servicios de delivery',
-          'Sistema de cupones y ofertas'
-        ],
-        objetivosTecnicos: [
-          'Integración con APIs de e-commerce',
-          'Sistema de geolocalización para tiendas',
-          'Procesamiento de pagos seguro',
-          'Notificaciones push para ofertas'
-        ],
-        metricasExito: [
-          'Ahorro promedio del 15% en compras',
-          'Tiempo de generación de lista < 30 segundos',
-          'Integración con 5+ cadenas de supermercados'
-        ]
-      },
-      {
-        label: 'Fase 4 - IA',
-        description: 'Reconocimiento de imágenes y recomendaciones',
-        apis: ['Google Vision AI', 'Clarifai'],
-        duracion: '5-6 semanas',
-        entregables: [
-          'Reconocimiento de ingredientes por cámara',
-          'Sistema de recomendaciones inteligentes',
-          'Planificación automática de menús semanales',
-          'Asistente virtual culinario'
-        ],
-        objetivosTecnicos: [
-          'Implementación de modelos de machine learning',
-          'Procesamiento de imágenes en tiempo real',
-          'Algoritmos de recomendación colaborativa',
-          'Sistema de aprendizaje continuo'
-        ],
-        metricasExito: [
-          'Precisión en reconocimiento > 85%',
-          'Reducción del 50% en tiempo de planificación',
-          'Satisfacción usuario > 4.5/5 estrellas'
-        ]
-      }
-    ].map((step, index) => (
-      <Step key={step.label}>
-        <StepLabel>
-          <Box>
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>{step.label}</Typography>
-            <Typography variant="caption" color="text.secondary">
-              Duración: {step.duracion}
-            </Typography>
-          </Box>
-        </StepLabel>
-        <StepContent>
-          <Typography variant="body1" paragraph sx={{ fontWeight: 500, color: 'primary.main' }}>
-            {step.description}
-          </Typography>
-          
-          {/* APIs a integrar */}
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-              📡 APIs a Integrar:
-            </Typography>
-            <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
-              {step.apis.map((api, i) => (
+  <Typography variant="body1" color="text.secondary" sx={{ mb: 4, textAlign: 'center' }}>
+    Desarrollo incremental con enfoque en MVP y expansión progresiva de funcionalidades
+  </Typography>
+
+  {/* Timeline Visual Mejorado */}
+  <Box sx={{ position: 'relative', mb: 6 }}>
+    <Timeline position="alternate">
+      {[
+        {
+          fase: "Fase 1",
+          titulo: "MVP Básico",
+          duracion: "2-3 semanas",
+          icono: <RocketIcon />,
+          color: "primary",
+          descripcion: "Funcionalidades esenciales para lanzamiento inicial",
+          caracteristicas: ["Búsqueda de recetas", "Visualización básica", "Favoritos locales"]
+        },
+        {
+          fase: "Fase 2", 
+          titulo: "Nutrición Avanzada",
+          duracion: "3-4 semanas",
+          icono: <CalculateIcon />,
+          color: "success",
+          descripcion: "Análisis nutricional y planificación dietética",
+          caracteristicas: ["Cálculo de calorías", "Seguimiento nutricional", "Recomendaciones"]
+        },
+        {
+          fase: "Fase 3",
+          titulo: "Comercio Inteligente",
+          duracion: "4-5 semanas", 
+          icono: <ShoppingCartIcon />,
+          color: "warning",
+          descripcion: "Integración con compras y delivery",
+          caracteristicas: ["Listas automáticas", "Comparación precios", "Pedidos delivery"]
+        },
+        {
+          fase: "Fase 4",
+          titulo: "IA y Personalización",
+          duracion: "5-6 semanas",
+          icono: <PsychologyIcon />,
+          color: "secondary", 
+          descripcion: "Inteligencia artificial y experiencias personalizadas",
+          caracteristicas: ["Reconocimiento visual", "Recomendaciones IA", "Planificación automática"]
+        }
+      ].map((fase, index) => (
+        <TimelineItem key={fase.fase}>
+          <TimelineSeparator>
+            <TimelineDot color={fase.color} variant="outlined" sx={{ borderWidth: 2 }}>
+              {fase.icono}
+            </TimelineDot>
+            {index < 3 && <TimelineConnector />}
+          </TimelineSeparator>
+          <TimelineContent>
+            <Paper 
+              elevation={3}
+              sx={{ 
+                p: 3, 
+                borderRadius: 3,
+                border: `2px solid ${theme.palette[fase.color].main}`,
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  transition: 'transform 0.3s ease',
+                  boxShadow: 6
+                }
+              }}
+            >
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                <Box>
+                  <Chip 
+                    label={fase.fase} 
+                    color={fase.color} 
+                    size="small"
+                    sx={{ fontWeight: 700, mb: 1 }}
+                  />
+                  <Typography variant="h5" sx={{ fontWeight: 700, color: `${fase.color}.main` }}>
+                    {fase.titulo}
+                  </Typography>
+                </Box>
                 <Chip 
-                  key={i} 
-                  label={api} 
-                  size="small" 
-                  color="primary" 
+                  label={fase.duracion} 
                   variant="outlined"
                   sx={{ fontWeight: 600 }}
                 />
-              ))}
-            </Stack>
+              </Box>
+              
+              <Typography variant="body1" sx={{ mb: 2, fontWeight: 500 }}>
+                {fase.descripcion}
+              </Typography>
+              
+              <Stack spacing={1}>
+                {fase.caracteristicas.map((caract, i) => (
+                  <Box key={i} sx={{ display: 'flex', alignItems: 'center' }}>
+                    <CheckCircleIcon 
+                      sx={{ 
+                        fontSize: '1rem', 
+                        color: `${fase.color}.main`, 
+                        mr: 1 
+                      }} 
+                    />
+                    <Typography variant="body2">{caract}</Typography>
+                  </Box>
+                ))}
+              </Stack>
+            </Paper>
+          </TimelineContent>
+        </TimelineItem>
+      ))}
+    </Timeline>
+  </Box>
+
+  {/* Descripción Detallada de Cada Fase */}
+  <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, mb: 4, textAlign: 'center' }}>
+    Descripción Detallada por Fase
+  </Typography>
+
+  <Grid container spacing={4}>
+    {/* Fase 1 - MVP */}
+    <Grid item xs={12} md={6}>
+      <Card elevation={3} sx={{ height: '100%', borderRadius: 3 }}>
+        <CardContent sx={{ p: 4 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Avatar sx={{ bgcolor: 'primary.main', mr: 2 }}>
+              <RocketIcon />
+            </Avatar>
+            <Box>
+              <Typography variant="h5" sx={{ fontWeight: 700 }}>Fase 1 - MVP Básico</Typography>
+              <Typography variant="caption" color="text.secondary">2-3 semanas</Typography>
+            </Box>
           </Box>
 
-          {/* Entregables principales */}
+          <Typography variant="body2" color="text.secondary" paragraph>
+            <strong>Objetivo Principal:</strong> Lanzar una versión funcional mínima que resuelva el problema core de búsqueda y visualización de recetas.
+          </Typography>
+
           <Box sx={{ mb: 3 }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-              🎯 Entregables Principales:
-            </Typography>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>🚀 Entregables Clave:</Typography>
             <Stack spacing={1}>
-              {step.entregables.map((entregable, i) => (
+              {[
+                "Búsqueda básica de recetas por nombre o ingredientes",
+                "Visualización completa de recetas con ingredientes y pasos",
+                "Sistema de favoritos local (sin sincronización en nube)",
+                "Interfaz de usuario responsive y intuitiva",
+                "Navegación básica entre pantallas principales"
+              ].map((item, i) => (
                 <Box key={i} sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                  <CheckCircleIcon 
-                    sx={{ 
-                      fontSize: '1rem', 
-                      color: 'success.main', 
-                      mr: 1, 
-                      mt: 0.25 
-                    }} 
-                  />
-                  <Typography variant="body2">{entregable}</Typography>
+                  <CheckCircleIcon sx={{ fontSize: '1rem', color: 'success.main', mr: 1, mt: 0.25 }} />
+                  <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>{item}</Typography>
                 </Box>
               ))}
             </Stack>
           </Box>
 
-          {/* Objetivos técnicos */}
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-              ⚙️ Objetivos Técnicos:
-            </Typography>
-            <Grid container spacing={1}>
-              {step.objetivosTecnicos.map((objetivo, i) => (
-                <Grid item xs={12} sm={6} key={i}>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <CodeIcon 
-                      sx={{ 
-                        fontSize: '0.9rem', 
-                        color: 'secondary.main', 
-                        mr: 1 
-                      }} 
-                    />
-                    <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
-                      {objetivo}
-                    </Typography>
-                  </Box>
-                </Grid>
+          <Box sx={{ p: 2, bgcolor: 'grey.50', borderRadius: 2 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>📊 Métricas de Éxito:</Typography>
+            <Stack spacing={0.5}>
+              {[
+                "Tiempo de búsqueda < 2 segundos",
+                "95% de disponibilidad del servicio",
+                "Interfaz usable en 95% de dispositivos móviles",
+                "0 crashes críticos en pruebas"
+              ].map((metrica, i) => (
+                <Typography key={i} variant="body2" sx={{ fontSize: '0.8rem' }}>• {metrica}</Typography>
               ))}
-            </Grid>
+            </Stack>
           </Box>
+        </CardContent>
+      </Card>
+    </Grid>
 
-          {/* Métricas de éxito */}
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-              📊 Métricas de Éxito:
-            </Typography>
-            <Box sx={{ 
-              p: 2, 
-              bgcolor: 'success.light', 
-              borderRadius: 2,
-              border: '1px solid',
-              borderColor: 'success.main'
-            }}>
-              <Stack spacing={1}>
-                {step.metricasExito.map((metrica, i) => (
-                  <Box key={i} sx={{ display: 'flex', alignItems: 'center' }}>
-                    <TrendingUpIcon 
-                      sx={{ 
-                        fontSize: '1rem', 
-                        color: 'success.main', 
-                        mr: 1 
-                      }} 
-                    />
-                    <Typography variant="body2" sx={{ color: 'success.dark', fontWeight: 500 }}>
-                      {metrica}
-                    </Typography>
-                  </Box>
-                ))}
-              </Stack>
+    {/* Fase 2 - Nutrición */}
+    <Grid item xs={12} md={6}>
+      <Card elevation={3} sx={{ height: '100%', borderRadius: 3 }}>
+        <CardContent sx={{ p: 4 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Avatar sx={{ bgcolor: 'success.main', mr: 2 }}>
+              <CalculateIcon />
+            </Avatar>
+            <Box>
+              <Typography variant="h5" sx={{ fontWeight: 700 }}>Fase 2 - Nutrición Avanzada</Typography>
+              <Typography variant="caption" color="text.secondary">3-4 semanas</Typography>
             </Box>
           </Box>
 
-          {/* Indicador de progreso */}
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'space-between',
-            mt: 2,
-            p: 2,
-            bgcolor: 'grey.50',
-            borderRadius: 2
-          }}>
-            <Typography variant="caption" sx={{ fontWeight: 600 }}>
-              Estado: {index === 0 ? '🚀 Próxima a comenzar' : '⏳ Planificada'}
-            </Typography>
-            <Chip 
-              label={`Prioridad ${index + 1}`} 
-              size="small" 
-              color={
-                index === 0 ? 'error' : 
-                index === 1 ? 'warning' : 
-                index === 2 ? 'primary' : 'default'
-              }
-            />
+          <Typography variant="body2" color="text.secondary" paragraph>
+            <strong>Objetivo Principal:</strong> Convertir la app en una herramienta completa de planificación nutricional y salud.
+          </Typography>
+
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>🥗 Funcionalidades Nutricionales:</Typography>
+            <Stack spacing={1}>
+              {[
+                "Análisis nutricional detallado por receta (calorías, proteínas, carbohidratos, grasas)",
+                "Calculadora inteligente de porciones según número de personas",
+                "Sistema de seguimiento de objetivos nutricionales personales",
+                "Recomendaciones basadas en restricciones dietéticas (vegetariano, keto, sin gluten, etc.)",
+                "Historial nutricional semanal y mensual"
+              ].map((item, i) => (
+                <Box key={i} sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                  <CheckCircleIcon sx={{ fontSize: '1rem', color: 'success.main', mr: 1, mt: 0.25 }} />
+                  <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>{item}</Typography>
+                </Box>
+              ))}
+            </Stack>
           </Box>
-        </StepContent>
-      </Step>
-    ))}
-  </Stepper>
+
+          <Box sx={{ p: 2, bgcolor: 'success.light', borderRadius: 2 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>🎯 Impacto Esperado:</Typography>
+            <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+              Los usuarios podrán tomar decisiones alimenticias informadas y seguir planes nutricionales personalizados.
+            </Typography>
+          </Box>
+        </CardContent>
+      </Card>
+    </Grid>
+
+    {/* Fase 3 - Comercio */}
+    <Grid item xs={12} md={6}>
+      <Card elevation={3} sx={{ height: '100%', borderRadius: 3 }}>
+        <CardContent sx={{ p: 4 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Avatar sx={{ bgcolor: 'warning.main', mr: 2 }}>
+              <ShoppingCartIcon />
+            </Avatar>
+            <Box>
+              <Typography variant="h5" sx={{ fontWeight: 700 }}>Fase 3 - Comercio Inteligente</Typography>
+              <Typography variant="caption" color="text.secondary">4-5 semanas</Typography>
+            </Box>
+          </Box>
+
+          <Typography variant="body2" color="text.secondary" paragraph>
+            <strong>Objetivo Principal:</strong> Integrar funcionalidades de compra que simplifiquen el proceso de adquirir ingredientes.
+          </Typography>
+
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>🛒 Ecosistema de Compras:</Typography>
+            <Stack spacing={1}>
+              {[
+                "Generación automática de listas de compras a partir de recetas seleccionadas",
+                "Comparación de precios entre diferentes supermercados y tiendas locales",
+                "Integración con servicios de delivery (Rappi, Cornershop, etc.)",
+                "Sistema de cupones y ofertas personalizadas basadas en hábitos de compra",
+                "Tracking de gastos en alimentación y análisis de ahorros"
+              ].map((item, i) => (
+                <Box key={i} sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                  <CheckCircleIcon sx={{ fontSize: '1rem', color: 'warning.main', mr: 1, mt: 0.25 }} />
+                  <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>{item}</Typography>
+                </Box>
+              ))}
+            </Stack>
+          </Box>
+
+          <Box sx={{ p: 2, bgcolor: 'warning.light', borderRadius: 2 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>💰 Beneficio Económico:</Typography>
+            <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+              Los usuarios podrán ahorrar hasta un 25% en sus compras de alimentos mediante comparación de precios y ofertas inteligentes.
+            </Typography>
+          </Box>
+        </CardContent>
+      </Card>
+    </Grid>
+
+    {/* Fase 4 - IA */}
+    <Grid item xs={12} md={6}>
+      <Card elevation={3} sx={{ height: '100%', borderRadius: 3 }}>
+        <CardContent sx={{ p: 4 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Avatar sx={{ bgcolor: 'secondary.main', mr: 2 }}>
+              <PsychologyIcon />
+            </Avatar>
+            <Box>
+              <Typography variant="h5" sx={{ fontWeight: 700 }}>Fase 4 - IA y Personalización</Typography>
+              <Typography variant="caption" color="text.secondary">5-6 semanas</Typography>
+            </Box>
+          </Box>
+
+          <Typography variant="body2" color="text.secondary" paragraph>
+            <strong>Objetivo Principal:</strong> Implementar inteligencia artificial para experiencias ultra-personalizadas y automatización inteligente.
+          </Typography>
+
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>🤖 Funcionalidades de IA:</Typography>
+            <Stack spacing={1}>
+              {[
+                "Reconocimiento de ingredientes mediante la cámara del dispositivo",
+                "Sistema de recomendaciones inteligentes basado en historial y preferencias",
+                "Planificación automática de menús semanales balanceados",
+                "Asistente virtual culinario con soporte por voz",
+                "Detección de tendencias alimenticias y sugerencias proactivas"
+              ].map((item, i) => (
+                <Box key={i} sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                  <CheckCircleIcon sx={{ fontSize: '1rem', color: 'secondary.main', mr: 1, mt: 0.25 }} />
+                  <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>{item}</Typography>
+                </Box>
+              ))}
+            </Stack>
+          </Box>
+
+          <Box sx={{ p: 2, bgcolor: 'secondary.light', borderRadius: 2 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>🚀 Innovación:</Typography>
+            <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+              Transformación de MiSabor de una app de recetas a un asistente culinario inteligente que anticipa necesidades.
+            </Typography>
+          </Box>
+        </CardContent>
+      </Card>
+    </Grid>
+  </Grid>
 
   {/* Resumen del Roadmap */}
   <Paper 
-    elevation={2} 
+    elevation={3} 
     sx={{ 
-      mt: 4, 
-      p: 3, 
-      bgcolor: 'primary.main', 
+      mt: 6, 
+      p: 4, 
+      background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
       color: 'white',
       borderRadius: 3
     }}
   >
-    <Typography variant="h6" gutterBottom sx={{ fontWeight: 700, display: 'flex', alignItems: 'center' }}>
-      <RocketIcon sx={{ mr: 1 }} />
-      Resumen del Roadmap
+    <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, textAlign: 'center', mb: 3 }}>
+      📈 Resumen del Roadmap de Desarrollo
     </Typography>
-    <Grid container spacing={3}>
-      <Grid item xs={12} md={3}>
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 800 }}>4</Typography>
-          <Typography variant="body2">Fases de Desarrollo</Typography>
-        </Box>
+    
+    <Grid container spacing={3} sx={{ textAlign: 'center' }}>
+      <Grid item xs={6} md={3}>
+        <Typography variant="h3" sx={{ fontWeight: 800 }}>4</Typography>
+        <Typography variant="body2">Fases de Desarrollo</Typography>
       </Grid>
-      <Grid item xs={12} md={3}>
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 800 }}>14-18</Typography>
-          <Typography variant="body2">Semanas Totales</Typography>
-        </Box>
+      <Grid item xs={6} md={3}>
+        <Typography variant="h3" sx={{ fontWeight: 800 }}>14-18</Typography>
+        <Typography variant="body2">Semanas Totales</Typography>
       </Grid>
-      <Grid item xs={12} md={3}>
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 800 }}>8+</Typography>
-          <Typography variant="body2">APIs a Integrar</Typography>
-        </Box>
+      <Grid item xs={6} md={3}>
+        <Typography variant="h3" sx={{ fontWeight: 800 }}>8+</Typography>
+        <Typography variant="body2">APIs a Integrar</Typography>
       </Grid>
-      <Grid item xs={12} md={3}>
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 800 }}>15+</Typography>
-          <Typography variant="body2">Entregables Principales</Typography>
-        </Box>
+      <Grid item xs={6} md={3}>
+        <Typography variant="h3" sx={{ fontWeight: 800 }}>20+</Typography>
+        <Typography variant="body2">Funcionalidades Principales</Typography>
       </Grid>
     </Grid>
+
+    <Box sx={{ mt: 3, p: 2, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: 2 }}>
+      <Typography variant="body2" sx={{ textAlign: 'center', fontStyle: 'italic' }}>
+        "De una simple app de recetas a un ecosistema culinario inteligente en 4-5 meses de desarrollo"
+      </Typography>
+    </Box>
   </Paper>
 </Paper>
 
