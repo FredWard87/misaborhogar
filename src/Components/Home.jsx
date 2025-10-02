@@ -2910,52 +2910,290 @@ const App = () => {
             </Grid>
           </Grid>
 
-          {/* Plan de Implementación */}
-          <Paper elevation={4} sx={{ p: 5, mt: 6, borderRadius: 4 }}>
-            <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, mb: 3, display: 'flex', alignItems: 'center' }}>
-              <IntegrationInstructionsIcon sx={{ mr: 2, color: 'primary.main' }} />
-              Plan de Implementación por Fases
+         {/* Plan de Implementación */}
+<Paper elevation={4} sx={{ p: 5, mt: 6, borderRadius: 4 }}>
+  <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, mb: 3, display: 'flex', alignItems: 'center' }}>
+    <IntegrationInstructionsIcon sx={{ mr: 2, color: 'primary.main' }} />
+    Plan de Implementación por Fases
+  </Typography>
+  
+  <Stepper orientation={isMobile ? "vertical" : "horizontal"} activeStep={-1}>
+    {[
+      {
+        label: 'Fase 1 - MVP',
+        description: 'Spoonacular API para búsqueda básica de recetas',
+        apis: ['Spoonacular (Free Tier)', 'The Meal DB'],
+        duracion: '2-3 semanas',
+        entregables: [
+          'Búsqueda básica de recetas por nombre',
+          'Visualización de recetas con ingredientes',
+          'Listado de pasos de preparación',
+          'Funcionalidad de favoritos local'
+        ],
+        objetivosTecnicos: [
+          'Integración inicial con Spoonacular API',
+          'Manejo de estado local con Redux/Context',
+          'Navegación básica entre pantallas',
+          'Cache simple de recetas'
+        ],
+        metricasExito: [
+          'Tiempo de respuesta < 2 segundos',
+          '95% de disponibilidad de API',
+          'Interfaz responsive en dispositivos móviles'
+        ]
+      },
+      {
+        label: 'Fase 2 - Nutrición',
+        description: 'Integración de análisis nutricional avanzado',
+        apis: ['Edamam API', 'USDA FoodData'],
+        duracion: '3-4 semanas',
+        entregables: [
+          'Análisis nutricional detallado por receta',
+          'Calculadora de calorías y macronutrientes',
+          'Recomendaciones dietéticas personalizadas',
+          'Seguimiento de objetivos nutricionales'
+        ],
+        objetivosTecnicos: [
+          'Integración con múltiples APIs nutricionales',
+          'Algoritmos de cálculo de porciones',
+          'Base de datos local de perfiles nutricionales',
+          'Sincronización en la nube'
+        ],
+        metricasExito: [
+          'Precisión nutricional > 90%',
+          'Cálculo de porciones en tiempo real',
+          'Soporte para 10+ dietas especiales'
+        ]
+      },
+      {
+        label: 'Fase 3 - Comercio',
+        description: 'Funcionalidades de compra y listas inteligentes',
+        apis: ['Google Shopping API', 'Nutritionix'],
+        duracion: '4-5 semanas',
+        entregables: [
+          'Listas de compras inteligentes automatizadas',
+          'Comparación de precios entre supermercados',
+          'Integración con servicios de delivery',
+          'Sistema de cupones y ofertas'
+        ],
+        objetivosTecnicos: [
+          'Integración con APIs de e-commerce',
+          'Sistema de geolocalización para tiendas',
+          'Procesamiento de pagos seguro',
+          'Notificaciones push para ofertas'
+        ],
+        metricasExito: [
+          'Ahorro promedio del 15% en compras',
+          'Tiempo de generación de lista < 30 segundos',
+          'Integración con 5+ cadenas de supermercados'
+        ]
+      },
+      {
+        label: 'Fase 4 - IA',
+        description: 'Reconocimiento de imágenes y recomendaciones',
+        apis: ['Google Vision AI', 'Clarifai'],
+        duracion: '5-6 semanas',
+        entregables: [
+          'Reconocimiento de ingredientes por cámara',
+          'Sistema de recomendaciones inteligentes',
+          'Planificación automática de menús semanales',
+          'Asistente virtual culinario'
+        ],
+        objetivosTecnicos: [
+          'Implementación de modelos de machine learning',
+          'Procesamiento de imágenes en tiempo real',
+          'Algoritmos de recomendación colaborativa',
+          'Sistema de aprendizaje continuo'
+        ],
+        metricasExito: [
+          'Precisión en reconocimiento > 85%',
+          'Reducción del 50% en tiempo de planificación',
+          'Satisfacción usuario > 4.5/5 estrellas'
+        ]
+      }
+    ].map((step, index) => (
+      <Step key={step.label}>
+        <StepLabel>
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>{step.label}</Typography>
+            <Typography variant="caption" color="text.secondary">
+              Duración: {step.duracion}
             </Typography>
-            
-            <Stepper orientation={isMobile ? "vertical" : "horizontal"} activeStep={-1}>
-              {[
-                {
-                  label: 'Fase 1 - MVP',
-                  description: 'Spoonacular API para búsqueda básica de recetas',
-                  apis: ['Spoonacular (Free Tier)', 'The Meal DB']
-                },
-                {
-                  label: 'Fase 2 - Nutrición',
-                  description: 'Integración de análisis nutricional avanzado',
-                  apis: ['Edamam API', 'USDA FoodData']
-                },
-                {
-                  label: 'Fase 3 - Comercio',
-                  description: 'Funcionalidades de compra y listas inteligentes',
-                  apis: ['Google Shopping API', 'Nutritionix']
-                },
-                {
-                  label: 'Fase 4 - IA',
-                  description: 'Reconocimiento de imágenes y recomendaciones',
-                  apis: ['Google Vision AI', 'Clarifai']
-                }
-              ].map((step, index) => (
-                <Step key={step.label}>
-                  <StepLabel>
-                    <Typography variant="h6" sx={{ fontWeight: 600 }}>{step.label}</Typography>
-                  </StepLabel>
-                  <StepContent>
-                    <Typography variant="body1" paragraph>{step.description}</Typography>
-                    <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
-                      {step.apis.map((api, i) => (
-                        <Chip key={i} label={api} size="small" color="primary" variant="outlined" />
-                      ))}
-                    </Stack>
-                  </StepContent>
-                </Step>
+          </Box>
+        </StepLabel>
+        <StepContent>
+          <Typography variant="body1" paragraph sx={{ fontWeight: 500, color: 'primary.main' }}>
+            {step.description}
+          </Typography>
+          
+          {/* APIs a integrar */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
+              📡 APIs a Integrar:
+            </Typography>
+            <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
+              {step.apis.map((api, i) => (
+                <Chip 
+                  key={i} 
+                  label={api} 
+                  size="small" 
+                  color="primary" 
+                  variant="outlined"
+                  sx={{ fontWeight: 600 }}
+                />
               ))}
-            </Stepper>
-          </Paper>
+            </Stack>
+          </Box>
+
+          {/* Entregables principales */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
+              🎯 Entregables Principales:
+            </Typography>
+            <Stack spacing={1}>
+              {step.entregables.map((entregable, i) => (
+                <Box key={i} sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                  <CheckCircleIcon 
+                    sx={{ 
+                      fontSize: '1rem', 
+                      color: 'success.main', 
+                      mr: 1, 
+                      mt: 0.25 
+                    }} 
+                  />
+                  <Typography variant="body2">{entregable}</Typography>
+                </Box>
+              ))}
+            </Stack>
+          </Box>
+
+          {/* Objetivos técnicos */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
+              ⚙️ Objetivos Técnicos:
+            </Typography>
+            <Grid container spacing={1}>
+              {step.objetivosTecnicos.map((objetivo, i) => (
+                <Grid item xs={12} sm={6} key={i}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <CodeIcon 
+                      sx={{ 
+                        fontSize: '0.9rem', 
+                        color: 'secondary.main', 
+                        mr: 1 
+                      }} 
+                    />
+                    <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
+                      {objetivo}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+
+          {/* Métricas de éxito */}
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
+              📊 Métricas de Éxito:
+            </Typography>
+            <Box sx={{ 
+              p: 2, 
+              bgcolor: 'success.light', 
+              borderRadius: 2,
+              border: '1px solid',
+              borderColor: 'success.main'
+            }}>
+              <Stack spacing={1}>
+                {step.metricasExito.map((metrica, i) => (
+                  <Box key={i} sx={{ display: 'flex', alignItems: 'center' }}>
+                    <TrendingUpIcon 
+                      sx={{ 
+                        fontSize: '1rem', 
+                        color: 'success.main', 
+                        mr: 1 
+                      }} 
+                    />
+                    <Typography variant="body2" sx={{ color: 'success.dark', fontWeight: 500 }}>
+                      {metrica}
+                    </Typography>
+                  </Box>
+                ))}
+              </Stack>
+            </Box>
+          </Box>
+
+          {/* Indicador de progreso */}
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            mt: 2,
+            p: 2,
+            bgcolor: 'grey.50',
+            borderRadius: 2
+          }}>
+            <Typography variant="caption" sx={{ fontWeight: 600 }}>
+              Estado: {index === 0 ? '🚀 Próxima a comenzar' : '⏳ Planificada'}
+            </Typography>
+            <Chip 
+              label={`Prioridad ${index + 1}`} 
+              size="small" 
+              color={
+                index === 0 ? 'error' : 
+                index === 1 ? 'warning' : 
+                index === 2 ? 'primary' : 'default'
+              }
+            />
+          </Box>
+        </StepContent>
+      </Step>
+    ))}
+  </Stepper>
+
+  {/* Resumen del Roadmap */}
+  <Paper 
+    elevation={2} 
+    sx={{ 
+      mt: 4, 
+      p: 3, 
+      bgcolor: 'primary.main', 
+      color: 'white',
+      borderRadius: 3
+    }}
+  >
+    <Typography variant="h6" gutterBottom sx={{ fontWeight: 700, display: 'flex', alignItems: 'center' }}>
+      <RocketIcon sx={{ mr: 1 }} />
+      Resumen del Roadmap
+    </Typography>
+    <Grid container spacing={3}>
+      <Grid item xs={12} md={3}>
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 800 }}>4</Typography>
+          <Typography variant="body2">Fases de Desarrollo</Typography>
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={3}>
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 800 }}>14-18</Typography>
+          <Typography variant="body2">Semanas Totales</Typography>
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={3}>
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 800 }}>8+</Typography>
+          <Typography variant="body2">APIs a Integrar</Typography>
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={3}>
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 800 }}>15+</Typography>
+          <Typography variant="body2">Entregables Principales</Typography>
+        </Box>
+      </Grid>
+    </Grid>
+  </Paper>
+</Paper>
 
           {/* Consideraciones Técnicas */}
           <Grid container spacing={4} sx={{ mt: 4 }}>
@@ -3094,10 +3332,6 @@ const getRecipeDetails = async (recipeId) => {
             </Grid>
           </Paper>
         </Container>
-      </Box>
-
-      {/* Sección de Introducción (se mantiene igual) */}
-      <Box id="introduccion" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
       </Box>
       {/* Sección de Vistas de la App */}
       <Box id="vistas" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
