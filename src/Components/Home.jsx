@@ -8,6 +8,7 @@ import {
   Button,
   Drawer,
   List,
+  ButtonGroup,
   ListItem,
   ListItemText,
   IconButton,
@@ -45,7 +46,23 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  LinearProgress
+  LinearProgress,
+  TextField,
+  InputAdornment,
+  Badge,
+  Switch,
+  FormControlLabel,
+  Rating,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Menu,
+  MenuItem,
+  Snackbar,
+  Alert,
+  CircularProgress,
+  Backdrop
 } from '@mui/material';
 
 // 🧪 MUI Lab Components (Timeline)
@@ -55,7 +72,8 @@ import {
   TimelineSeparator,
   TimelineConnector,
   TimelineContent,
-  TimelineDot
+  TimelineDot,
+  TimelineOppositeContent
 } from '@mui/lab';
 
 // 🎨 MUI Icons
@@ -101,7 +119,49 @@ import {
   PlayArrow as PlayArrowIcon,
   Check as CheckIcon,
   Schedule as ScheduleIcon,
-  PriorityHigh as PriorityHighIcon
+  PriorityHigh as PriorityHighIcon,
+  ArrowForward as ArrowForwardIcon,
+  ArrowBack as ArrowBackIcon,
+  NavigateNext as NavigateNextIcon,
+  PhoneIphone as PhoneIphoneIcon,
+  Search as SearchIcon,
+  Favorite as FavoriteIcon,
+  FavoriteBorder as FavoriteBorderIcon,
+  Share as ShareIcon,
+  Bookmark as BookmarkIcon,
+  BookmarkBorder as BookmarkBorderIcon,
+  LocalGroceryStore as LocalGroceryStoreIcon,
+  AccessTime as AccessTimeIcon,
+  RestaurantMenu as RestaurantMenuIcon,
+  FilterList as FilterListIcon,
+  Notifications as NotificationsIcon,
+  Settings as SettingsIcon,
+  ExitToApp as ExitToAppIcon,
+  Add as AddIcon,
+  Remove as RemoveIcon,
+  PersonAdd as PersonAddIcon,
+  Facebook as FacebookIcon,
+  Google as GoogleIcon,
+  Apple as AppleIcon,
+  Email as EmailIcon,
+  Lock as LockIcon,
+  VisibilityOff as VisibilityOffIcon,
+  Home as HomeIcon,
+  Category as CategoryIcon,
+  TrendingFlat as TrendingFlatIcon,
+  Close as CloseIcon,
+  MoreVert as MoreVertIcon,
+  AddPhotoAlternate as AddPhotoAlternateIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Refresh as RefreshIcon,
+  Download as DownloadIcon,
+  Upload as UploadIcon,
+  QrCode as QrCodeIcon,
+  Wifi as WifiIcon,
+  BatteryFull as BatteryFullIcon,
+  NetworkCell as NetworkCellIcon,
+  SignalCellularAlt as SignalCellularAltIcon
 } from '@mui/icons-material';
 
 // Componente para el scroll suave
@@ -147,10 +207,1700 @@ const ScrollToTop = () => {
   );
 };
 
+// Componente Mockup de Celular Mejorado
+const PhoneMockup = ({ children, active = false, color = 'primary' }) => {
+  const theme = useTheme();
+  const colors = {
+    primary: theme.palette.primary.main,
+    secondary: theme.palette.secondary.main,
+    success: theme.palette.success.main,
+    warning: theme.palette.warning.main,
+  };
+  
+  return (
+    <Box
+      sx={{
+        position: 'relative',
+        width: 300,
+        height: 600,
+        borderRadius: '40px',
+        background: 'linear-gradient(145deg, #1a1a1a, #2a2a2a)',
+        boxShadow: active 
+          ? `0 25px 50px rgba(0,0,0,0.5), inset 0 0 0 3px ${colors[color]}, 0 0 20px ${alpha(colors[color], 0.3)}`
+          : '0 15px 35px rgba(0,0,0,0.3), inset 0 0 0 1px #333',
+        border: '12px solid #000',
+        overflow: 'hidden',
+        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        transform: active ? 'translateY(-10px) scale(1.02)' : 'translateY(0) scale(1)',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '40%',
+          height: '25px',
+          background: '#000',
+          borderBottomLeftRadius: '15px',
+          borderBottomRightRadius: '15px',
+          zIndex: 10
+        },
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          bottom: '10px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '100px',
+          height: '4px',
+          background: '#333',
+          borderRadius: '4px',
+          zIndex: 10
+        }
+      }}
+    >
+      <Box
+        sx={{
+          width: '100%',
+          height: '100%',
+          borderRadius: '28px',
+          overflow: 'hidden',
+          background: theme.palette.background.default,
+          position: 'relative'
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
+  );
+};
+
+// Componente de Conector entre Vistas Mejorado
+const ViewConnector = ({ from, to, label, reverse = false, color = 'primary' }) => {
+  const theme = useTheme();
+  const colors = {
+    primary: theme.palette.primary.main,
+    secondary: theme.palette.secondary.main,
+  };
+  
+  return (
+    <Box
+      sx={{
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        my: 4
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          width: '200px'
+        }}
+      >
+        <Box
+          sx={{
+            width: '150px',
+            height: '3px',
+            background: `linear-gradient(${reverse ? '270deg' : '90deg'}, ${colors[color]}, ${alpha(colors[color], 0.7)})`,
+            position: 'relative',
+            borderRadius: '2px',
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              right: reverse ? 'auto' : '-8px',
+              left: reverse ? '-8px' : 'auto',
+              top: '50%',
+              transform: 'translateY(-50%) rotate(45deg)',
+              width: '12px',
+              height: '12px',
+              border: `2px solid ${colors[color]}`,
+              borderLeft: 'none',
+              borderBottom: 'none',
+              background: 'transparent'
+            }
+          }}
+        />
+        <Chip
+          label={label}
+          size="small"
+          sx={{
+            position: 'absolute',
+            bgcolor: 'background.paper',
+            border: `1px solid ${colors[color]}`,
+            fontWeight: 700,
+            fontSize: '0.75rem',
+            color: colors[color]
+          }}
+        />
+      </Box>
+    </Box>
+  );
+};
+
+// Iconos personalizados
+const ListIcon = (props) => (
+  <svg {...props} viewBox="0 0 24 24" width="24" height="24">
+    <path fill="currentColor" d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0 4h2v-2H3v2zm12 4h2v-2h-2v2zM3 9h2V7H3v2zm12-4h2V3h-2v2zm4 0h2V3h-2v2zm0 16h2v-2h-2v2zm-4 0h2v-2h-2v2zm4-12h2v-2h-2v2zm0 4h2v-2h-2v2zm0 4h2v-2h-2v2zm-8-8h2v-2h-2v2zm0 4h2v-2h-2v2zm0 4h2v-2h-2v2zm0 4h2v-2h-2v2z"/>
+  </svg>
+);
+
+const AddShoppingCartIcon = (props) => (
+  <svg {...props} viewBox="0 0 24 24" width="24" height="24">
+    <path fill="currentColor" d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-9.83-3.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.86-7.01L19.42 4h-.01l-1.1 2-2.76 5H8.53l-.13-.27L6.16 6l-.95-2-.94-2H1v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.13 0-.25-.11-.25-.25z"/>
+  </svg>
+);
+
+// 1. MOCKUP LOGIN MEJORADO
+const MockupLogin = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const theme = useTheme();
+  
+  const handleLogin = () => {
+    setLoading(true);
+    // Simular proceso de login
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+  
+  return (
+    <Box sx={{ 
+      height: '100%', 
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden'
+    }}>
+      {/* Status Bar Simulado */}
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        px: 2, 
+        py: 1,
+        background: 'rgba(0,0,0,0.1)',
+        color: 'white',
+        fontSize: '0.7rem'
+      }}>
+        <Typography variant="caption">9:41</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <SignalCellularAltIcon sx={{ fontSize: '0.8rem' }} />
+          <WifiIcon sx={{ fontSize: '0.8rem' }} />
+          <BatteryFullIcon sx={{ fontSize: '0.8rem' }} />
+        </Box>
+      </Box>
+
+      {/* Header con gradiente */}
+      <Box sx={{ 
+        p: 4, 
+        textAlign: 'center',
+        background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%)',
+        pt: 6
+      }}>
+        <Avatar sx={{ 
+          mb: 2, 
+          bgcolor: 'white', 
+          width: 80, 
+          height: 80,
+          mx: 'auto',
+          boxShadow: '0 8px 25px rgba(0,0,0,0.15)'
+        }}>
+          <KitchenIcon sx={{ fontSize: 40, color: '#667eea' }} />
+        </Avatar>
+        <Typography variant="h5" fontWeight={800} color="white" gutterBottom>
+          MiSabor
+        </Typography>
+        <Typography variant="body2" color="white" sx={{ opacity: 0.9 }}>
+          Tu chef personal
+        </Typography>
+      </Box>
+
+      {/* Formulario */}
+      <Paper sx={{ 
+        flex: 1,
+        m: 2, 
+        p: 3, 
+        borderRadius: 4,
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(10px)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2
+      }}>
+        <Typography variant="h6" fontWeight={700} textAlign="center" gutterBottom>
+          Iniciar Sesión
+        </Typography>
+        
+        <TextField
+          size="small"
+          placeholder="Correo electrónico"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <EmailIcon color="primary" />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: 3,
+              background: 'white'
+            }
+          }}
+        />
+        
+        <TextField
+          size="small"
+          type={showPassword ? 'text' : 'password'}
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockIcon color="primary" />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton 
+                  size="small" 
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: 3,
+              background: 'white'
+            }
+          }}
+        />
+
+        <Box sx={{ textAlign: 'right' }}>
+          <Typography 
+            variant="caption" 
+            color="primary" 
+            sx={{ 
+              fontWeight: 600, 
+              cursor: 'pointer',
+              '&:hover': { textDecoration: 'underline' }
+            }}
+          >
+            ¿Olvidaste tu contraseña?
+          </Typography>
+        </Box>
+
+        <Button 
+          variant="contained" 
+          fullWidth 
+          size="large"
+          onClick={handleLogin}
+          disabled={loading}
+          sx={{
+            borderRadius: 3,
+            py: 1.2,
+            fontWeight: 700,
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)',
+            mt: 1,
+            position: 'relative'
+          }}
+        >
+          {loading ? (
+            <CircularProgress size={24} sx={{ color: 'white' }} />
+          ) : (
+            'CONTINUAR'
+          )}
+        </Button>
+
+        <Divider sx={{ my: 1 }}>
+          <Typography variant="caption" color="text.secondary">
+            o continúa con
+          </Typography>
+        </Divider>
+
+        <Stack direction="row" spacing={1}>
+          <Button 
+            variant="outlined" 
+            fullWidth 
+            size="small"
+            startIcon={<GoogleIcon />}
+            sx={{ borderRadius: 3, py: 1 }}
+          >
+            Google
+          </Button>
+          <Button 
+            variant="outlined" 
+            fullWidth 
+            size="small"
+            startIcon={<FacebookIcon color="primary" />}
+            sx={{ borderRadius: 3, py: 1 }}
+          >
+            Facebook
+          </Button>
+        </Stack>
+
+        <Typography variant="caption" textAlign="center" color="text.secondary" sx={{ mt: 2 }}>
+          ¿No tienes cuenta? <Box component="span" sx={{ color: 'primary.main', fontWeight: 600, cursor: 'pointer' }}>Regístrate</Box>
+        </Typography>
+      </Paper>
+
+      {/* Loading Backdrop */}
+      <Backdrop open={loading} sx={{ zIndex: 1300 }}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </Box>
+  );
+};
+
+// 2. MOCKUP BÚSQUEDA MEJORADO
+const MockupBusqueda = () => {
+  const [searchValue, setSearchValue] = useState('');
+  const [selectedFilter, setSelectedFilter] = useState('Todas');
+  const [favorites, setFavorites] = useState([1, 3]);
+  const theme = useTheme();
+  
+  const recetas = [
+    { 
+      id: 1, 
+      nombre: "Pasta Carbonara", 
+      tiempo: "25 min", 
+      dificultad: "Media", 
+      rating: 4.7, 
+      favorito: true,
+      categoria: "Italiana",
+      calorias: 420
+    },
+    { 
+      id: 2, 
+      nombre: "Ensalada César", 
+      tiempo: "15 min", 
+      dificultad: "Fácil", 
+      rating: 4.3, 
+      favorito: false,
+      categoria: "Ensaladas",
+      calorias: 280
+    },
+    { 
+      id: 3, 
+      nombre: "Tacos al Pastor", 
+      tiempo: "40 min", 
+      dificultad: "Media", 
+      rating: 4.8, 
+      favorito: true,
+      categoria: "Mexicana",
+      calorias: 380
+    },
+    { 
+      id: 4, 
+      nombre: "Salmón a la Plancha", 
+      tiempo: "20 min", 
+      dificultad: "Fácil", 
+      rating: 4.5, 
+      favorito: false,
+      categoria: "Pescados",
+      calorias: 320
+    }
+  ];
+
+  const toggleFavorite = (id) => {
+    if (favorites.includes(id)) {
+      setFavorites(favorites.filter(favId => favId !== id));
+    } else {
+      setFavorites([...favorites, id]);
+    }
+  };
+
+  const filters = ['Todas', 'Rápidas', 'Saludables', 'Postres', 'Vegetariana', 'Mexicana', 'Italiana'];
+
+  return (
+    <Box sx={{ height: '100%', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
+      {/* Status Bar */}
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        px: 2, 
+        py: 1,
+        background: 'white',
+        borderBottom: 1,
+        borderColor: 'divider',
+        fontSize: '0.7rem'
+      }}>
+        <Typography variant="caption">9:41</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <SignalCellularAltIcon sx={{ fontSize: '0.8rem' }} />
+          <WifiIcon sx={{ fontSize: '0.8rem' }} />
+          <BatteryFullIcon sx={{ fontSize: '0.8rem' }} />
+        </Box>
+      </Box>
+
+      {/* Header */}
+      <Box sx={{ 
+        p: 2, 
+        background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
+        color: 'white',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+      }}>
+        <Typography variant="h6" fontWeight={700}>Descubrir Recetas</Typography>
+        <Typography variant="caption" sx={{ opacity: 0.9 }}>Encuentra tu próxima comida favorita</Typography>
+      </Box>
+
+      {/* Barra de búsqueda */}
+      <Box sx={{ p: 2, pb: 1 }}>
+        <TextField
+          fullWidth
+          size="small"
+          placeholder="🔍 Buscar recetas, ingredientes..."
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: 3,
+              background: 'white'
+            }
+          }}
+        />
+      </Box>
+
+      {/* Filtros */}
+      <Box sx={{ px: 2, pb: 1 }}>
+        <Stack direction="row" spacing={1} sx={{ overflow: 'auto', pb: 1 }}>
+          {filters.map((filtro) => (
+            <Chip 
+              key={filtro}
+              label={filtro}
+              size="small"
+              variant={selectedFilter === filtro ? 'filled' : 'outlined'}
+              color={selectedFilter === filtro ? 'primary' : 'default'}
+              onClick={() => setSelectedFilter(filtro)}
+              sx={{ 
+                borderRadius: 3,
+                fontWeight: 600,
+                fontSize: '0.75rem',
+                flexShrink: 0
+              }}
+            />
+          ))}
+        </Stack>
+      </Box>
+
+      {/* Contador de resultados */}
+      <Box sx={{ px: 2, pb: 1 }}>
+        <Typography variant="caption" color="text.secondary">
+          {recetas.length} recetas encontradas
+        </Typography>
+      </Box>
+
+      {/* Lista de recetas */}
+      <Box sx={{ flex: 1, overflow: 'auto', p: 2, pt: 1 }}>
+        <Stack spacing={2}>
+          {recetas.map((receta) => (
+            <Card 
+              key={receta.id}
+              sx={{ 
+                borderRadius: 3,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                overflow: 'hidden',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 6px 20px rgba(0,0,0,0.15)'
+                }
+              }}
+            >
+              <Box sx={{ display: 'flex' }}>
+                <Box sx={{ 
+                  width: 80, 
+                  height: 80, 
+                  bgcolor: 'grey.300',
+                  background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  position: 'relative'
+                }}>
+                  <RestaurantMenuIcon />
+                  <Chip 
+                    label={receta.categoria}
+                    size="small"
+                    sx={{
+                      position: 'absolute',
+                      top: 4,
+                      left: 4,
+                      background: 'rgba(255,255,255,0.9)',
+                      color: 'text.primary',
+                      fontSize: '0.6rem',
+                      height: 20
+                    }}
+                  />
+                </Box>
+                
+                <Box sx={{ p: 1.5, flex: 1 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <Typography variant="subtitle2" fontWeight={700} sx={{ lineHeight: 1.2, mr: 1 }}>
+                      {receta.nombre}
+                    </Typography>
+                    <IconButton 
+                      size="small" 
+                      onClick={() => toggleFavorite(receta.id)}
+                      sx={{ mt: -0.5 }}
+                    >
+                      {favorites.includes(receta.id) ? 
+                        <FavoriteIcon color="error" fontSize="small" /> : 
+                        <FavoriteBorderIcon fontSize="small" />
+                      }
+                    </IconButton>
+                  </Box>
+                  
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}>
+                    <Rating 
+                      value={receta.rating} 
+                      size="small" 
+                      readOnly 
+                      precision={0.1}
+                    />
+                    <Typography variant="caption" color="text.secondary">
+                      {receta.rating}
+                    </Typography>
+                  </Box>
+                  
+                  <Stack direction="row" spacing={1} sx={{ mb: 0.5 }}>
+                    <Chip 
+                      icon={<AccessTimeIcon />}
+                      label={receta.tiempo}
+                      size="small"
+                      variant="outlined"
+                      sx={{ borderRadius: 2, fontSize: '0.7rem' }}
+                    />
+                    <Chip 
+                      label={receta.dificultad}
+                      size="small"
+                      color="primary"
+                      variant="filled"
+                      sx={{ borderRadius: 2, fontSize: '0.7rem' }}
+                    />
+                  </Stack>
+
+                  <Typography variant="caption" color="text.secondary">
+                    {receta.calorias} cal • {receta.categoria}
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+          ))}
+        </Stack>
+      </Box>
+
+      {/* Navigation Bar */}
+      <Box sx={{ 
+        p: 1, 
+        borderTop: 1, 
+        borderColor: 'divider',
+        background: 'white'
+      }}>
+        <Stack direction="row" justifyContent="space-around">
+          {[
+            { icon: <HomeIcon />, label: 'Inicio', active: false },
+            { icon: <SearchIcon color="primary" />, label: 'Buscar', active: true },
+            { icon: <BookmarkBorderIcon />, label: 'Guardados', active: false },
+            { icon: <PersonIcon />, label: 'Perfil', active: false }
+          ].map((item, index) => (
+            <Box key={index} sx={{ textAlign: 'center', flex: 1 }}>
+              <IconButton size="small" color={item.active ? 'primary' : 'default'}>
+                {item.icon}
+              </IconButton>
+              <Typography variant="caption" display="block" color={item.active ? 'primary' : 'text.secondary'}>
+                {item.label}
+              </Typography>
+            </Box>
+          ))}
+        </Stack>
+      </Box>
+    </Box>
+  );
+};
+
+// 3. MOCKUP DETALLE RECETA MEJORADO
+const MockupDetalleReceta = () => {
+  const [porciones, setPorciones] = useState(4);
+  const [favorito, setFavorito] = useState(true);
+  const [guardado, setGuardado] = useState(false);
+  const [pasoActivo, setPasoActivo] = useState(0);
+  const [showNutrition, setShowNutrition] = useState(false);
+  
+  const ingredientes = [
+    { nombre: "Pasta spaghetti", cantidad: "400g", ajustado: "400g", categoria: "Pasta" },
+    { nombre: "Pancetta", cantidad: "200g", ajustado: "200g", categoria: "Carne" },
+    { nombre: "Huevos", cantidad: "4 unidades", ajustado: "4 unidades", categoria: "Lácteos" },
+    { nombre: "Queso pecorino", cantidad: "100g", ajustado: "100g", categoria: "Lácteos" },
+    { nombre: "Pimienta negra", cantidad: "al gusto", ajustado: "al gusto", categoria: "Especias" },
+    { nombre: "Sal", cantidad: "al gusto", ajustado: "al gusto", categoria: "Especias" },
+    { nombre: "Ajo", cantidad: "2 dientes", ajustado: "2 dientes", categoria: "Vegetales" }
+  ];
+
+  const pasos = [
+    "Cocinar la pasta en agua con sal hasta que esté al dente",
+    "Dorar la pancetta en una sartén grande a fuego medio",
+    "Batir los huevos con el queso pecorino rallado y pimienta",
+    "Escurrir la pasta reservando un poco de agua de cocción",
+    "Mezclar la pasta con la pancetta fuera del fuego",
+    "Agregar la mezcla de huevo y revolver rápidamente",
+    "Servir inmediatamente con pimienta negra molida y queso extra"
+  ];
+
+  const nutrition = {
+    calorias: 420,
+    proteinas: "18g",
+    carbohidratos: "45g",
+    grasas: "22g",
+    fibra: "3g"
+  };
+
+  const categoriasIngredientes = [...new Set(ingredientes.map(i => i.categoria))];
+
+  return (
+    <Box sx={{ height: '100%', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
+      {/* Status Bar */}
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        px: 2, 
+        py: 1,
+        background: 'white',
+        borderBottom: 1,
+        borderColor: 'divider',
+        fontSize: '0.7rem'
+      }}>
+        <Typography variant="caption">9:41</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <SignalCellularAltIcon sx={{ fontSize: '0.8rem' }} />
+          <WifiIcon sx={{ fontSize: '0.8rem' }} />
+          <BatteryFullIcon sx={{ fontSize: '0.8rem' }} />
+        </Box>
+      </Box>
+
+      {/* Header con imagen */}
+      <Box sx={{ position: 'relative', height: 200, flexShrink: 0 }}>
+        <Box sx={{ 
+          width: '100%', 
+          height: '100%', 
+          bgcolor: 'primary.main',
+          background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white'
+        }}>
+          <RestaurantMenuIcon sx={{ fontSize: 80, opacity: 0.8 }} />
+        </Box>
+        
+        {/* Overlay con acciones */}
+        <Box sx={{ 
+          position: 'absolute', 
+          top: 0, 
+          left: 0, 
+          right: 0, 
+          p: 2,
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 100%)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start'
+        }}>
+          <IconButton sx={{ color: 'white' }}>
+            <ArrowBackIcon />
+          </IconButton>
+          
+          <Stack direction="row" spacing={1}>
+            <IconButton 
+              sx={{ color: 'white' }}
+              onClick={() => setFavorito(!favorito)}
+            >
+              {favorito ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
+            </IconButton>
+            <IconButton 
+              sx={{ color: 'white' }}
+              onClick={() => setGuardado(!guardado)}
+            >
+              {guardado ? <BookmarkIcon color="primary" /> : <BookmarkBorderIcon />}
+            </IconButton>
+            <IconButton sx={{ color: 'white' }}>
+              <ShareIcon />
+            </IconButton>
+          </Stack>
+        </Box>
+
+        {/* Información de la receta */}
+        <Paper sx={{ 
+          position: 'absolute', 
+          bottom: -20, 
+          left: 16, 
+          right: 16, 
+          p: 2,
+          borderRadius: 3,
+          boxShadow: '0 8px 25px rgba(0,0,0,0.15)'
+        }}>
+          <Typography variant="h6" fontWeight={800} gutterBottom>
+            Pasta Carbonara
+          </Typography>
+          
+          <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+            <Box sx={{ textAlign: 'center', flex: 1 }}>
+              <AccessTimeIcon color="primary" fontSize="small" />
+              <Typography variant="caption" display="block" fontWeight={600}>
+                25 min
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: 'center', flex: 1 }}>
+              <LocalGroceryStoreIcon color="primary" fontSize="small" />
+              <Typography variant="caption" display="block" fontWeight={600}>
+                Media
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: 'center', flex: 1 }}>
+              <PersonIcon color="primary" fontSize="small" />
+              <Typography variant="caption" display="block" fontWeight={600}>
+                {porciones} pers
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: 'center', flex: 1 }}>
+              <StarIcon color="primary" fontSize="small" />
+              <Typography variant="caption" display="block" fontWeight={600}>
+                4.7
+              </Typography>
+            </Box>
+          </Stack>
+
+          {/* Selector de porciones */}
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+            <IconButton 
+              size="small" 
+              onClick={() => setPorciones(Math.max(1, porciones - 1))}
+              disabled={porciones <= 1}
+            >
+              <RemoveIcon />
+            </IconButton>
+            
+            <Typography variant="h6" fontWeight={700} color="primary">
+              {porciones} {porciones === 1 ? 'persona' : 'personas'}
+            </Typography>
+            
+            <IconButton 
+              size="small" 
+              onClick={() => setPorciones(porciones + 1)}
+            >
+              <AddIcon />
+            </IconButton>
+          </Box>
+        </Paper>
+      </Box>
+
+      {/* Contenido desplazable */}
+      <Box sx={{ flex: 1, overflow: 'auto', pt: 4, pb: 2 }}>
+        <Box sx={{ px: 2 }}>
+          {/* Tabs de navegación */}
+          <Paper sx={{ p: 1, mb: 3, borderRadius: 3 }}>
+            <Stack direction="row" spacing={1}>
+              {['Ingredientes', 'Preparación', 'Nutrición'].map((tab, index) => (
+                <Button
+                  key={tab}
+                  variant={index === 0 ? 'contained' : 'text'}
+                  size="small"
+                  onClick={() => {
+                    if (index === 2) setShowNutrition(true);
+                    else setPasoActivo(0);
+                  }}
+                  sx={{
+                    borderRadius: 2,
+                    flex: 1,
+                    fontWeight: 600,
+                    fontSize: '0.75rem'
+                  }}
+                >
+                  {tab}
+                </Button>
+              ))}
+            </Stack>
+          </Paper>
+
+          {/* Ingredientes */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="h6" fontWeight={700} gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
+              <LocalGroceryStoreIcon sx={{ mr: 1 }} />
+              Ingredientes
+              <Chip 
+                label={`${ingredientes.length} items`} 
+                size="small" 
+                sx={{ ml: 2, borderRadius: 2 }}
+              />
+            </Typography>
+            
+            {categoriasIngredientes.map(categoria => {
+              const ingredientesCategoria = ingredientes.filter(i => i.categoria === categoria);
+              return (
+                <Box key={categoria} sx={{ mb: 2 }}>
+                  <Typography variant="subtitle2" fontWeight={600} color="primary" sx={{ mb: 1, pl: 1 }}>
+                    {categoria}
+                  </Typography>
+                  <Stack spacing={1}>
+                    {ingredientesCategoria.map((ingrediente, index) => (
+                      <Box 
+                        key={index}
+                        sx={{ 
+                          display: 'flex', 
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          p: 1.5,
+                          borderRadius: 2,
+                          bgcolor: 'grey.50',
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            bgcolor: 'primary.light',
+                            color: 'white'
+                          }
+                        }}
+                      >
+                        <Typography variant="body2" fontWeight={600}>
+                          {ingrediente.nombre}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {ingrediente.ajustado}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Stack>
+                </Box>
+              );
+            })}
+          </Box>
+
+          {/* Pasos de preparación */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="h6" fontWeight={700} gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
+              <ListIcon sx={{ mr: 1 }} />
+              Preparación
+              <Chip 
+                label={`${pasos.length} pasos`} 
+                size="small" 
+                sx={{ ml: 2, borderRadius: 2 }}
+              />
+            </Typography>
+            
+            <Stack spacing={2}>
+              {pasos.map((paso, index) => (
+                <Paper 
+                  key={index}
+                  elevation={pasoActivo === index ? 2 : 0}
+                  sx={{ 
+                    p: 2, 
+                    borderRadius: 2,
+                    border: pasoActivo === index ? 2 : 0,
+                    borderColor: 'primary.main',
+                    bgcolor: pasoActivo === index ? 'primary.light' : 'grey.50',
+                    color: pasoActivo === index ? 'white' : 'inherit',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onClick={() => setPasoActivo(index)}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                    <Avatar 
+                      sx={{ 
+                        bgcolor: pasoActivo === index ? 'white' : 'primary.main',
+                        color: pasoActivo === index ? 'primary.main' : 'white',
+                        width: 32,
+                        height: 32,
+                        fontSize: '0.9rem',
+                        fontWeight: 700
+                      }}
+                    >
+                      {index + 1}
+                    </Avatar>
+                    <Typography variant="body2" sx={{ flex: 1 }}>
+                      {paso}
+                    </Typography>
+                    {pasoActivo === index && (
+                      <CheckCircleIcon color="inherit" />
+                    )}
+                  </Box>
+                </Paper>
+              ))}
+            </Stack>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Botón de acción */}
+      <Box sx={{ p: 2, borderTop: 1, borderColor: 'divider', background: 'white' }}>
+        <Button 
+          variant="contained" 
+          fullWidth 
+          size="large"
+          startIcon={<LocalGroceryStoreIcon />}
+          sx={{
+            borderRadius: 3,
+            py: 1.5,
+            fontWeight: 700,
+            background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)'
+          }}
+        >
+          Agregar a Lista de Compras
+        </Button>
+      </Box>
+
+      {/* Dialog de Nutrición */}
+      <Dialog 
+        open={showNutrition} 
+        onClose={() => setShowNutrition(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle sx={{ fontWeight: 700 }}>
+          Información Nutricional
+        </DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2} sx={{ mt: 1 }}>
+            <Grid item xs={6}>
+              <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2 }}>
+                <Typography variant="h4" fontWeight={800} color="primary">
+                  {nutrition.calorias}
+                </Typography>
+                <Typography variant="caption">Calorías</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2 }}>
+                <Typography variant="h4" fontWeight={800} color="primary">
+                  {nutrition.proteinas}
+                </Typography>
+                <Typography variant="caption">Proteínas</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2 }}>
+                <Typography variant="h4" fontWeight={800} color="primary">
+                  {nutrition.carbohidratos}
+                </Typography>
+                <Typography variant="caption">Carbohidratos</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2 }}>
+                <Typography variant="h4" fontWeight={800} color="primary">
+                  {nutrition.grasas}
+                </Typography>
+                <Typography variant="caption">Grasas</Typography>
+              </Paper>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowNutrition(false)}>
+            Cerrar
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
+  );
+};
+
+// 4. MOCKUP LISTA DE COMPRAS MEJORADO
+const MockupListaCompras = () => {
+  const [items, setItems] = useState([
+    { id: 1, nombre: "Pasta spaghetti", cantidad: "400g", comprado: false, categoria: "Pasta y Granos", precio: 2.50 },
+    { id: 2, nombre: "Pancetta", cantidad: "200g", comprado: true, categoria: "Carnes", precio: 8.00 },
+    { id: 3, nombre: "Huevos", cantidad: "4 unidades", comprado: false, categoria: "Lácteos", precio: 3.20 },
+    { id: 4, nombre: "Queso pecorino", cantidad: "100g", comprado: false, categoria: "Lácteos", precio: 6.80 },
+    { id: 5, nombre: "Pimienta negra", cantidad: "al gusto", comprado: true, categoria: "Especias", precio: 4.50 },
+    { id: 6, nombre: "Ajo", cantidad: "2 dientes", comprado: false, categoria: "Vegetales", precio: 1.00 }
+  ]);
+
+  const [showCompleted, setShowCompleted] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const toggleComprado = (id) => {
+    setItems(items.map(item => 
+      item.id === id ? { ...item, comprado: !item.comprado } : item
+    ));
+  };
+
+  const categorias = [...new Set(items.map(item => item.categoria))];
+  const totalItems = items.length;
+  const comprados = items.filter(item => item.comprado).length;
+  const progreso = totalItems > 0 ? (comprados / totalItems) * 100 : 0;
+  const totalPrecio = items.reduce((sum, item) => sum + item.precio, 0);
+
+  const itemsFiltrados = showCompleted ? items : items.filter(item => !item.comprado);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const clearCompleted = () => {
+    setItems(items.filter(item => !item.comprado));
+    handleMenuClose();
+  };
+
+  return (
+    <Box sx={{ height: '100%', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
+      {/* Status Bar */}
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        px: 2, 
+        py: 1,
+        background: 'white',
+        borderBottom: 1,
+        borderColor: 'divider',
+        fontSize: '0.7rem'
+      }}>
+        <Typography variant="caption">9:41</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <SignalCellularAltIcon sx={{ fontSize: '0.8rem' }} />
+          <WifiIcon sx={{ fontSize: '0.8rem' }} />
+          <BatteryFullIcon sx={{ fontSize: '0.8rem' }} />
+        </Box>
+      </Box>
+
+      {/* Header */}
+      <Box sx={{ 
+        p: 3, 
+        background: 'linear-gradient(135deg, #FF9800 0%, #F57C00 100%)',
+        color: 'white',
+        textAlign: 'center',
+        position: 'relative'
+      }}>
+        <IconButton 
+          sx={{ 
+            position: 'absolute', 
+            right: 8, 
+            top: 8, 
+            color: 'white' 
+          }}
+          onClick={handleMenuOpen}
+        >
+          <MoreVertIcon />
+        </IconButton>
+
+        <Typography variant="h5" fontWeight={800} gutterBottom>
+          Lista de Compras
+        </Typography>
+        
+        {/* Progreso */}
+        <Box sx={{ mb: 2 }}>
+          <LinearProgress 
+            variant="determinate" 
+            value={progreso} 
+            sx={{ 
+              height: 8, 
+              borderRadius: 4,
+              mb: 1,
+              bgcolor: 'rgba(255,255,255,0.3)',
+              '& .MuiLinearProgress-bar': {
+                bgcolor: 'white'
+              }
+            }}
+          />
+          <Typography variant="caption" sx={{ opacity: 0.9 }}>
+            {comprados} de {totalItems} productos comprados
+          </Typography>
+        </Box>
+
+        {/* Resumen */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="h6" fontWeight={800}>
+              ${totalPrecio.toFixed(2)}
+            </Typography>
+            <Typography variant="caption">Total estimado</Typography>
+          </Box>
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="h6" fontWeight={800}>
+              {totalItems}
+            </Typography>
+            <Typography variant="caption">Productos</Typography>
+          </Box>
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="h6" fontWeight={800}>
+              {categorias.length}
+            </Typography>
+            <Typography variant="caption">Categorías</Typography>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Filtros */}
+      <Box sx={{ p: 2, pb: 1 }}>
+        <FormControlLabel
+          control={
+            <Switch 
+              checked={showCompleted}
+              onChange={(e) => setShowCompleted(e.target.checked)}
+              color="primary"
+            />
+          }
+          label="Mostrar completados"
+        />
+      </Box>
+
+      {/* Lista de productos */}
+      <Box sx={{ flex: 1, overflow: 'auto', p: 2, pt: 0 }}>
+        {categorias.map(categoria => {
+          const itemsCategoria = itemsFiltrados.filter(item => item.categoria === categoria);
+          const compradosCategoria = itemsCategoria.filter(item => item.comprado).length;
+          const totalCategoria = itemsCategoria.length;
+          
+          if (totalCategoria === 0) return null;
+          
+          return (
+            <Box key={categoria} sx={{ mb: 3 }}>
+              {/* Header de categoría */}
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                mb: 1,
+                p: 1.5,
+                borderRadius: 2,
+                bgcolor: 'primary.light',
+                color: 'white'
+              }}>
+                <Typography variant="subtitle2" fontWeight={700}>
+                  {categoria}
+                </Typography>
+                <Typography variant="caption">
+                  {compradosCategoria}/{totalCategoria}
+                </Typography>
+              </Box>
+
+              {/* Items de la categoría */}
+              <Stack spacing={1}>
+                {itemsCategoria.map(item => (
+                  <Paper 
+                    key={item.id}
+                    elevation={1}
+                    sx={{ 
+                      p: 2,
+                      borderRadius: 2,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 2,
+                      bgcolor: item.comprado ? 'success.light' : 'white',
+                      color: item.comprado ? 'white' : 'inherit',
+                      textDecoration: item.comprado ? 'line-through' : 'none',
+                      opacity: item.comprado ? 0.8 : 1,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateX(4px)',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                      }
+                    }}
+                    onClick={() => toggleComprado(item.id)}
+                  >
+                    <Box
+                      sx={{
+                        width: 24,
+                        height: 24,
+                        border: 2,
+                        borderColor: item.comprado ? 'white' : 'primary.main',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        bgcolor: item.comprado ? 'primary.main' : 'transparent',
+                        flexShrink: 0
+                      }}
+                    >
+                      {item.comprado && <CheckIcon sx={{ fontSize: 16, color: 'white' }} />}
+                    </Box>
+                    
+                    <Box sx={{ flex: 1 }}>
+                      <Typography variant="body2" fontWeight={600}>
+                        {item.nombre}
+                      </Typography>
+                      <Typography variant="caption" sx={{ opacity: item.comprado ? 0.7 : 0.6 }}>
+                        {item.cantidad}
+                      </Typography>
+                    </Box>
+                    
+                    <Box sx={{ textAlign: 'right', flexShrink: 0 }}>
+                      <Typography variant="body2" fontWeight={600}>
+                        ${item.precio.toFixed(2)}
+                      </Typography>
+                      {!item.comprado && (
+                        <IconButton 
+                          size="small" 
+                          sx={{ 
+                            color: 'primary.main',
+                            mt: 0.5
+                          }}
+                        >
+                          <AddShoppingCartIcon />
+                        </IconButton>
+                      )}
+                    </Box>
+                  </Paper>
+                ))}
+              </Stack>
+            </Box>
+          );
+        })}
+      </Box>
+
+      {/* Acciones */}
+      <Box sx={{ p: 2, borderTop: 1, borderColor: 'divider', background: 'white' }}>
+        <Stack direction="row" spacing={1}>
+          <Button 
+            variant="outlined" 
+            fullWidth
+            startIcon={<ShareIcon />}
+            sx={{ borderRadius: 3 }}
+          >
+            Compartir
+          </Button>
+          <Button 
+            variant="contained" 
+            fullWidth
+            startIcon={<LocalGroceryStoreIcon />}
+            sx={{ 
+              borderRadius: 3,
+              background: 'linear-gradient(135deg, #FF9800 0%, #F57C00 100%)'
+            }}
+          >
+            Completar
+          </Button>
+        </Stack>
+      </Box>
+
+      {/* Menu de opciones */}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={clearCompleted}>
+          <DeleteIcon sx={{ mr: 1 }} />
+          Limpiar completados
+        </MenuItem>
+        <MenuItem onClick={handleMenuClose}>
+          <EditIcon sx={{ mr: 1 }} />
+          Editar lista
+        </MenuItem>
+        <MenuItem onClick={handleMenuClose}>
+          <DownloadIcon sx={{ mr: 1 }} />
+          Exportar lista
+        </MenuItem>
+      </Menu>
+    </Box>
+  );
+};
+
+// 5. MOCKUP PERFIL MEJORADO
+const MockupPerfil = () => {
+  const [notificaciones, setNotificaciones] = useState(true);
+  const [modoOscuro, setModoOscuro] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [menuAnchor, setMenuAnchor] = useState(null);
+  
+  const stats = [
+    { label: 'Recetas creadas', value: 12, icon: <RestaurantMenuIcon />, color: 'primary' },
+    { label: 'Favoritos', value: 24, icon: <FavoriteIcon />, color: 'secondary' },
+    { label: 'Listas guardadas', value: 8, icon: <BookmarkIcon />, color: 'success' },
+    { label: 'Seguidores', value: 156, icon: <PersonAddIcon />, color: 'warning' }
+  ];
+
+  const menuItems = [
+    { icon: <BookmarkIcon />, label: 'Mis Recetas', badge: 12 },
+    { icon: <FavoriteIcon />, label: 'Favoritos', badge: 24 },
+    { icon: <LocalGroceryStoreIcon />, label: 'Listas de Compras', badge: 8 },
+    { icon: <SettingsIcon />, label: 'Configuración' },
+    { icon: <ExitToAppIcon />, label: 'Cerrar Sesión', color: 'error' }
+  ];
+
+  const recetasRecientes = [
+    { nombre: "Pasta Carbonara", imagen: "#", tiempo: "25 min", rating: 4.7 },
+    { nombre: "Ensalada César", imagen: "#", tiempo: "15 min", rating: 4.3 },
+    { nombre: "Tacos Pastor", imagen: "#", tiempo: "40 min", rating: 4.8 },
+    { nombre: "Brownie", imagen: "#", tiempo: "35 min", rating: 4.5 }
+  ];
+
+  const handleSaveProfile = () => {
+    setEditMode(false);
+    setSnackbarOpen(true);
+  };
+
+  const handleMenuOpen = (event) => {
+    setMenuAnchor(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchor(null);
+  };
+
+  return (
+    <Box sx={{ height: '100%', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
+      {/* Status Bar */}
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        px: 2, 
+        py: 1,
+        background: 'white',
+        borderBottom: 1,
+        borderColor: 'divider',
+        fontSize: '0.7rem'
+      }}>
+        <Typography variant="caption">9:41</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <SignalCellularAltIcon sx={{ fontSize: '0.8rem' }} />
+          <WifiIcon sx={{ fontSize: '0.8rem' }} />
+          <BatteryFullIcon sx={{ fontSize: '0.8rem' }} />
+        </Box>
+      </Box>
+
+      {/* Header del perfil */}
+      <Box sx={{ 
+        p: 4, 
+        background: 'linear-gradient(135deg, #9C27B0 0%, #673AB7 100%)',
+        color: 'white',
+        textAlign: 'center',
+        pt: 6,
+        position: 'relative'
+      }}>
+        <IconButton 
+          sx={{ 
+            position: 'absolute', 
+            right: 16, 
+            top: 16, 
+            color: 'white' 
+          }}
+          onClick={handleMenuOpen}
+        >
+          <MoreVertIcon />
+        </IconButton>
+
+        <Avatar
+          sx={{
+            width: 100,
+            height: 100,
+            mx: 'auto',
+            mb: 2,
+            border: '4px solid white',
+            boxShadow: '0 8px 25px rgba(0,0,0,0.2)',
+            cursor: editMode ? 'pointer' : 'default'
+          }}
+          src="/static/images/avatar/1.jpg"
+        >
+          AG
+        </Avatar>
+        
+        {editMode ? (
+          <TextField
+            defaultValue="Ana García"
+            size="small"
+            sx={{
+              mb: 1,
+              '& .MuiOutlinedInput-root': {
+                background: 'white',
+                borderRadius: 2
+              }
+            }}
+          />
+        ) : (
+          <Typography variant="h5" fontWeight={800} gutterBottom>
+            Ana García
+          </Typography>
+        )}
+        
+        <Typography variant="body2" sx={{ opacity: 0.9, mb: 3 }}>
+          Food enthusiast 🍳 | 156 seguidores
+        </Typography>
+
+        {/* Estadísticas */}
+        <Grid container spacing={2} sx={{ mb: 2 }}>
+          {stats.map((stat, index) => (
+            <Grid item xs={6} key={index}>
+              <Paper sx={{ 
+                p: 1.5, 
+                bgcolor: 'rgba(255,255,255,0.1)',
+                backdropFilter: 'blur(10px)',
+                borderRadius: 3,
+                textAlign: 'center'
+              }}>
+                <Box sx={{ color: 'white', mb: 0.5 }}>
+                  {stat.icon}
+                </Box>
+                <Typography variant="h6" fontWeight={800}>
+                  {stat.value}
+                </Typography>
+                <Typography variant="caption" sx={{ opacity: 0.8 }}>
+                  {stat.label}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+
+        {editMode ? (
+          <Stack direction="row" spacing={1} justifyContent="center">
+            <Button 
+              variant="outlined" 
+              size="small"
+              onClick={() => setEditMode(false)}
+              sx={{ 
+                borderColor: 'white', 
+                color: 'white',
+                borderRadius: 3,
+                fontWeight: 600
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button 
+              variant="contained" 
+              size="small"
+              onClick={handleSaveProfile}
+              sx={{ 
+                background: 'white',
+                color: 'primary.main',
+                borderRadius: 3,
+                fontWeight: 600
+              }}
+            >
+              Guardar
+            </Button>
+          </Stack>
+        ) : (
+          <Button 
+            variant="outlined" 
+            size="small"
+            onClick={() => setEditMode(true)}
+            sx={{ 
+              borderColor: 'white', 
+              color: 'white',
+              borderRadius: 3,
+              fontWeight: 600
+            }}
+          >
+            Editar Perfil
+          </Button>
+        )}
+      </Box>
+
+      {/* Configuración y menú */}
+      <Box sx={{ flex: 1, overflow: 'auto', p: 2 }}>
+        {/* Configuración rápida */}
+        <Paper sx={{ p: 2, borderRadius: 3, mb: 2 }}>
+          <Typography variant="h6" fontWeight={700} gutterBottom>
+            Configuración
+          </Typography>
+          
+          <Stack spacing={2}>
+            <FormControlLabel
+              control={
+                <Switch 
+                  checked={notificaciones}
+                  onChange={(e) => setNotificaciones(e.target.checked)}
+                  color="primary"
+                />
+              }
+              label="Notificaciones"
+            />
+            <FormControlLabel
+              control={
+                <Switch 
+                  checked={modoOscuro}
+                  onChange={(e) => setModoOscuro(e.target.checked)}
+                  color="primary"
+                />
+              }
+              label="Modo Oscuro"
+            />
+          </Stack>
+        </Paper>
+
+        {/* Menú principal */}
+        <Paper sx={{ borderRadius: 3, overflow: 'hidden', mb: 3 }}>
+          {menuItems.map((item, index) => (
+            <Box key={index}>
+              <Box 
+                sx={{ 
+                  p: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  '&:hover': {
+                    bgcolor: 'primary.light',
+                    color: 'white'
+                  },
+                  color: item.color || 'inherit'
+                }}
+              >
+                <Box sx={{ color: 'inherit' }}>
+                  {item.icon}
+                </Box>
+                
+                <Typography variant="body2" fontWeight={600} sx={{ flex: 1 }}>
+                  {item.label}
+                </Typography>
+                
+                {item.badge && (
+                  <Chip 
+                    label={item.badge} 
+                    size="small" 
+                    color="primary"
+                    sx={{ borderRadius: 2 }}
+                  />
+                )}
+                
+                <NavigateNextIcon sx={{ opacity: 0.7 }} />
+              </Box>
+              
+              {index < menuItems.length - 1 && <Divider />}
+            </Box>
+          ))}
+        </Paper>
+
+        {/* Recetas recientes */}
+        <Typography variant="h6" fontWeight={700} sx={{ mb: 2 }}>
+          Recetas Recientes
+        </Typography>
+        
+        <Grid container spacing={2}>
+          {recetasRecientes.map((receta, index) => (
+            <Grid item xs={6} key={index}>
+              <Card sx={{ borderRadius: 2, overflow: 'hidden' }}>
+                <Box sx={{ 
+                  height: 80, 
+                  bgcolor: 'primary.main',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  position: 'relative'
+                }}>
+                  <RestaurantMenuIcon />
+                  <Chip 
+                    label={receta.rating}
+                    size="small"
+                    sx={{
+                      position: 'absolute',
+                      top: 4,
+                      right: 4,
+                      background: 'rgba(255,255,255,0.9)',
+                      color: 'text.primary',
+                      fontSize: '0.6rem',
+                      height: 20
+                    }}
+                    icon={<StarIcon sx={{ fontSize: '0.8rem' }} />}
+                  />
+                </Box>
+                <CardContent sx={{ p: 1 }}>
+                  <Typography variant="caption" fontWeight={600} display="block" noWrap>
+                    {receta.nombre}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary" display="block">
+                    {receta.tiempo}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+
+      {/* Navigation Bar */}
+      <Box sx={{ 
+        p: 1, 
+        borderTop: 1, 
+        borderColor: 'divider',
+        background: 'white'
+      }}>
+        <Stack direction="row" justifyContent="space-around">
+          {[
+            { icon: <HomeIcon />, label: 'Inicio', active: false },
+            { icon: <SearchIcon />, label: 'Buscar', active: false },
+            { icon: <BookmarkBorderIcon />, label: 'Guardados', active: false },
+            { icon: <PersonIcon color="primary" />, label: 'Perfil', active: true }
+          ].map((item, index) => (
+            <Box key={index} sx={{ textAlign: 'center', flex: 1 }}>
+              <IconButton size="small" color={item.active ? 'primary' : 'default'}>
+                {item.icon}
+              </IconButton>
+              <Typography variant="caption" display="block" color={item.active ? 'primary' : 'text.secondary'}>
+                {item.label}
+              </Typography>
+            </Box>
+          ))}
+        </Stack>
+      </Box>
+
+      {/* Menu de opciones */}
+      <Menu
+        anchorEl={menuAnchor}
+        open={Boolean(menuAnchor)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={handleMenuClose}>
+          <EditIcon sx={{ mr: 1 }} />
+          Editar perfil
+        </MenuItem>
+        <MenuItem onClick={handleMenuClose}>
+          <AddPhotoAlternateIcon sx={{ mr: 1 }} />
+          Cambiar foto
+        </MenuItem>
+        <MenuItem onClick={handleMenuClose}>
+          <SettingsIcon sx={{ mr: 1 }} />
+          Configuración
+        </MenuItem>
+      </Menu>
+
+      {/* Snackbar de confirmación */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert severity="success" onClose={() => setSnackbarOpen(false)}>
+          Perfil actualizado correctamente
+        </Alert>
+      </Snackbar>
+    </Box>
+  );
+};
+
+// Componente Principal App
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [tabValue, setTabValue] = useState(0);
+  const [activeView, setActiveView] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -167,7 +1917,7 @@ const App = () => {
     const handleScroll = () => {
       const sections = [
         'home', 'introduccion', 'vision', 'metodologia', 
-        'arquitectura', 'desarrollo', 'sprints', 'equipo', 'conclusion', 'bibliografia'
+        'arquitectura', 'desarrollo', 'vistas', 'sprints', 'equipo', 'conclusion', 'bibliografia'
       ];
       
       const currentSection = sections.find(section => {
@@ -198,6 +1948,55 @@ const App = () => {
     setMobileOpen(false);
   };
 
+  // Datos para las vistas de la aplicación
+  const appViews = [
+    {
+      id: 1,
+      name: 'Pantalla de Login',
+      component: <MockupLogin />,
+      description: 'Autenticación segura con redes sociales y email, al momento de iniciar sesión seras redirigido a la pantalla principal donde buscaras tu receta',
+      path: '/vista5',
+      icon: <PersonIcon />,
+      color: 'primary'
+    },
+    {
+      id: 2,
+      name: 'Búsqueda de Recetas',
+      component: <MockupBusqueda />,
+      description: 'Búsqueda inteligente y filtrado avanzado al momento de buscar una receta podras filtrar por ingredientes, tiempo de preparación, dificultad, tipo de comida y más, una vez elegida seras redireccionado a la pantalla de detalle de receta',
+      path: '/vista1',
+      icon: <SearchIcon />,
+      color: 'secondary'
+    },
+    {
+      id: 3,
+      name: 'Detalle de Receta',
+      component: <MockupDetalleReceta />,
+      description: 'Vista completa con ingredientes ajustables y pasos interactivos en la pantalla de detalle de receta podras ver los ingredientes necesarios, pasos para preparar la receta, información nutricional y valoraciones de otros usuarios ademas de que podras ajustar los ingredientes segun el numero de comensales y poder agregarlos a tu lista de compras',
+      path: '/vista3',
+      icon: <RestaurantMenuIcon />,
+      color: 'success'
+    },
+    {
+      id: 4,
+      name: 'Lista de Compras',
+      component: <MockupListaCompras />,
+      description: 'Gestión inteligente de ingredientes y progreso de compra en la pantalla de lista de compras podras ver todos los ingredientes que necesitas comprar, organizados por categorías, con opciones para marcar como comprados, eliminar o compartir la lista ademas de un resumen del total estimado y progreso de compra',
+      path: '/vista4',
+      icon: <ShoppingCartIcon />,
+      color: 'warning'
+    },
+    {
+      id: 5,
+      name: 'Perfil de Usuario',
+      component: <MockupPerfil />,
+      description: 'Personalización y configuración avanzada en la pantalla de perfil podras ver y editar tu información personal, estadísticas de uso, recetas guardadas y listas de compras ademas de opciones para configurar notificaciones, modo oscuro y cerrar sesión',
+      path: '/perfil',
+      icon: <PersonIcon />,
+      color: 'primary'
+    }
+  ];
+
   const navigationItems = [
     { id: 'home', label: 'Inicio', icon: <RocketIcon /> },
     { id: 'introduccion', label: 'Introducción', icon: <SchoolIcon /> },
@@ -205,6 +2004,7 @@ const App = () => {
     { id: 'metodologia', label: 'Metodología', icon: <TimelineIcon /> },
     { id: 'arquitectura', label: 'Arquitectura', icon: <ArchitectureIcon /> },
     { id: 'desarrollo', label: 'Desarrollo', icon: <CodeIcon /> },
+    { id: 'vistas', label: 'Vistas de la App', icon: <PhoneIphoneIcon /> },
     { id: 'sprints', label: 'Planificación Sprints', icon: <DashboardIcon /> },
     { id: 'equipo', label: 'Equipo', icon: <GroupIcon /> },
     { id: 'conclusion', label: 'Conclusión', icon: <AssessmentIcon /> },
@@ -334,7 +2134,7 @@ const App = () => {
     },
     {
       tipo: "Pruebas de Integración",
-      desc: "Confirmación de que todos los módulos trabajen conjuntamente",
+      desc: "Confirmación de que todos los módulos trabajan conjuntamente",
       icon: <IntegrationInstructionsIcon />,
       ejemplos: ["Cliente-Servidor", "API externa de recetas", "Base de datos"]
     },
@@ -385,15 +2185,13 @@ const App = () => {
       nombre: "Pantalla de Inicio",
       desc: "Vista general de recetas destacadas con buscador integrado",
       Vista1: "ir a /vista1",
-      caracteristicas: ["Recetas destacadas", "Buscador superior", "Categorías pricncipales"]
+      caracteristicas: ["Recetas destacadas", "Buscador superior", "Categorías principales"]
     },
-    
     {
       nombre: "Búsqueda de Recetas",
       desc: "Filtrado avanzado por nombre, categoría o ingredientes disponibles",
       Vista2: "ir a /vista2",
       caracteristicas: ["Filtros múltiples", "Búsqueda en tiempo real", "Resultados categorizados"]
-      
     },
     {
       nombre: "Detalle de Receta",
@@ -404,17 +2202,16 @@ const App = () => {
     {
       nombre: "Lista de Compras",
       desc: "Generación automática a partir de recetas seleccionadas",
-        Vista4: "ir a /vista4",
+      Vista4: "ir a /vista4",
       caracteristicas: ["Agrupación inteligente", "Cantidades calculadas", "Marcado de comprados"]
     },
     {
       nombre: "Perfil de Usuario",
       desc: "Gestión personalizada de recetas favoritas y preferencias",
-        Vista5: "ir a /vista5",
+      Vista5: "ir a /vista5",
       caracteristicas: ["Inicio de sesión", "Favoritos", "Historial personal"]
     }
   ];
-  
 
   // Nueva sección: Planificación de Sprints con Jira
   const plataformaGestion = {
@@ -863,8 +2660,8 @@ const App = () => {
                     <Button 
                       variant="outlined" 
                       size="large"
-                      onClick={() => scrollToSection('desarrollo')}
-                      startIcon={<CodeIcon />}
+                      onClick={() => scrollToSection('vistas')}
+                      startIcon={<PhoneIphoneIcon />}
                       sx={{
                         borderRadius: 3,
                         px: 4,
@@ -872,7 +2669,7 @@ const App = () => {
                         fontWeight: 600
                       }}
                     >
-                      Ver Desarrollo
+                      Ver Vistas
                     </Button>
                   </Stack>
                 </Box>
@@ -927,8 +2724,233 @@ const App = () => {
         </Container>
       </Box>
 
+      {/* Sección de Vistas de la App */}
+      <Box id="vistas" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
+        <Container maxWidth="xl">
+          <Box sx={{ textAlign: 'center', mb: 8 }}>
+            <Chip label="Demo Interactivo" color="primary" sx={{ mb: 2, fontWeight: 600 }} />
+            <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 800 }}>
+              Vistas de la Aplicación
+            </Typography>
+            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 800, mx: 'auto' }}>
+              Explora el flujo completo de navegación de MiSabor a través de nuestras 5 pantallas principales
+            </Typography>
+          </Box>
+
+          {/* Selector de Vistas */}
+          <Paper elevation={4} sx={{ p: 4, mb: 6, borderRadius: 4 }}>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, mb: 3, display: 'flex', alignItems: 'center' }}>
+              <PhoneIphoneIcon sx={{ mr: 2, color: 'primary.main' }} />
+              Navegación entre Pantallas
+            </Typography>
+            
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+              <ButtonGroup variant="outlined" sx={{ borderRadius: 3 }}>
+                {appViews.map((view, index) => (
+                  <Button
+                    key={view.id}
+                    onClick={() => setActiveView(index)}
+                    variant={activeView === index ? "contained" : "outlined"}
+                    startIcon={view.icon}
+                    sx={{
+                      borderRadius: 2,
+                      fontWeight: 600,
+                      px: 3
+                    }}
+                  >
+                    {view.name}
+                  </Button>
+                ))}
+              </ButtonGroup>
+            </Box>
+
+            {/* Flujo de Navegación Visual */}
+            <Box sx={{ position: 'relative', minHeight: 400 }}>
+              {/* Vista Activa Centrada */}
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+                <Fade in timeout={500}>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <PhoneMockup active={true} color={appViews[activeView].color}>
+                      {appViews[activeView].component}
+                    </PhoneMockup>
+                    <Typography variant="h6" fontWeight={700} sx={{ mt: 2 }}>
+                      {appViews[activeView].name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {appViews[activeView].description}
+                    </Typography>
+                  </Box>
+                </Fade>
+              </Box>
+
+              {/* Línea de tiempo de navegación */}
+              <Box sx={{ position: 'relative', mt: 6 }}>
+                <Timeline position="alternate">
+                  {appViews.map((view, index) => (
+                    <TimelineItem key={view.id}>
+                      <TimelineSeparator>
+                        <TimelineDot 
+                          color={index === activeView ? "primary" : "grey"} 
+                          variant={index === activeView ? "filled" : "outlined"}
+                        >
+                          {view.icon}
+                        </TimelineDot>
+                        {index < appViews.length - 1 && <TimelineConnector />}
+                      </TimelineSeparator>
+                      <TimelineContent>
+                        <Paper 
+                          elevation={index === activeView ? 4 : 1}
+                          sx={{ 
+                            p: 2, 
+                            cursor: 'pointer',
+                            bgcolor: index === activeView ? 'primary.main' : 'background.paper',
+                            color: index === activeView ? 'white' : 'text.primary',
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                              transform: 'translateY(-2px)',
+                              boxShadow: theme.shadows[4]
+                            }
+                          }}
+                          onClick={() => setActiveView(index)}
+                        >
+                          <Typography variant="subtitle1" fontWeight={600}>
+                            {view.name}
+                          </Typography>
+                          <Typography variant="body2" sx={{ opacity: index === activeView ? 0.9 : 0.7 }}>
+                            {view.description}
+                          </Typography>
+                        </Paper>
+                      </TimelineContent>
+                    </TimelineItem>
+                  ))}
+                </Timeline>
+              </Box>
+            </Box>
+          </Paper>
+
+          {/* Grid de todas las vistas */}
+          <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 700, mb: 4 }}>
+            Todas las Pantallas
+          </Typography>
+          
+          <Grid container spacing={4} justifyContent="center">
+            {appViews.map((view, index) => (
+              <Grid item xs={12} sm={6} md={4} key={view.id}>
+                <Grow in timeout={500 + index * 100}>
+                  <Card 
+                    elevation={4}
+                    sx={{ 
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-8px)',
+                        boxShadow: theme.shadows[8]
+                      }
+                    }}
+                    onClick={() => setActiveView(index)}
+                  >
+                    <CardContent sx={{ p: 3 }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                        <PhoneMockup active={index === activeView} color={view.color}>
+                          {view.component}
+                        </PhoneMockup>
+                      </Box>
+                      <Typography variant="h6" fontWeight={700} gutterBottom>
+                        {view.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                        {view.description}
+                      </Typography>
+                      <Chip 
+                        label={view.path} 
+                        size="small" 
+                        variant="outlined"
+                        sx={{ fontWeight: 600 }}
+                      />
+                    </CardContent>
+                  </Card>
+                </Grow>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Diagrama de Flujo */}
+          <Paper elevation={4} sx={{ p: 4, mt: 6, borderRadius: 4 }}>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, mb: 3, display: 'flex', alignItems: 'center' }}>
+              <TimelineIcon sx={{ mr: 2, color: 'primary.main' }} />
+              Diagrama de Flujo de Navegación
+            </Typography>
+            
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+              {/* Fila 1: Login */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <PhoneMockup active={activeView === 0} color="primary">
+                    <MockupLogin />
+                  </PhoneMockup>
+                  <Typography variant="body2" fontWeight={600} sx={{ mt: 1 }}>
+                    Login
+                  </Typography>
+                </Box>
+                <ViewConnector from={0} to={1} label="Autenticación exitosa" />
+              </Box>
+
+              {/* Fila 2: Búsqueda y Detalle */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <PhoneMockup active={activeView === 1} color="secondary">
+                    <MockupBusqueda />
+                  </PhoneMockup>
+                  <Typography variant="body2" fontWeight={600} sx={{ mt: 1 }}>
+                    Búsqueda
+                  </Typography>
+                </Box>
+                <ViewConnector from={1} to={2} label="Seleccionar receta" />
+                <Box sx={{ textAlign: 'center' }}>
+                  <PhoneMockup active={activeView === 2} color="success">
+                    <MockupDetalleReceta />
+                  </PhoneMockup>
+                  <Typography variant="body2" fontWeight={600} sx={{ mt: 1 }}>
+                    Detalle
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* Fila 3: Lista y Perfil */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <PhoneMockup active={activeView === 3} color="warning">
+                    <MockupListaCompras />
+                  </PhoneMockup>
+                  <Typography variant="body2" fontWeight={600} sx={{ mt: 1 }}>
+                    Lista Compras
+                  </Typography>
+                </Box>
+                <ViewConnector from={3} to={4} label="Gestión completa" />
+                <Box sx={{ textAlign: 'center' }}>
+                  <PhoneMockup active={activeView === 4} color="primary">
+                    <MockupPerfil />
+                  </PhoneMockup>
+                  <Typography variant="body2" fontWeight={600} sx={{ mt: 1 }}>
+                    Perfil
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+
+            <Box sx={{ textAlign: 'center', mt: 4 }}>
+              <Typography variant="body1" color="text.secondary">
+                Nota: Las flechas indican el flujo de navegación entre las diferentes pantallas de la aplicación.
+              </Typography>
+            </Box>
+          </Paper>
+        </Container>
+      </Box>
+
       {/* Introducción Section */}
-      <Box id="introduccion" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
+      <Box id="introduccion" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Chip label="Sección 1" color="secondary" sx={{ mb: 2, fontWeight: 600 }} />
@@ -1000,7 +3022,7 @@ const App = () => {
       </Box>
 
       {/* Visión Section Mejorada */}
-      <Box id="vision" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
+      <Box id="vision" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Chip label="Propósito y Visión" color="primary" sx={{ mb: 2, fontWeight: 600 }} />
@@ -1100,7 +3122,7 @@ const App = () => {
       </Box>
 
       {/* Metodología Section Mejorada */}
-      <Box id="metodologia" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
+      <Box id="metodologia" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Chip label="Sección 2" color="secondary" sx={{ mb: 2, fontWeight: 600 }} />
@@ -1274,7 +3296,7 @@ const App = () => {
       </Box>
 
       {/* Arquitectura Section Mejorada */}
-      <Box id="arquitectura" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
+      <Box id="arquitectura" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Chip label="Sección 3" color="secondary" sx={{ mb: 2, fontWeight: 600 }} />
@@ -1505,7 +3527,7 @@ const App = () => {
       </Box>
 
       {/* Desarrollo Section Mejorada */}
-      <Box id="desarrollo" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
+      <Box id="desarrollo" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Chip label="Sección 4" color="secondary" sx={{ mb: 2, fontWeight: 600 }} />
@@ -1672,7 +3694,7 @@ const App = () => {
       </Box>
 
       {/* Nueva Sección: Planificación de Sprints */}
-      <Box id="sprints" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
+      <Box id="sprints" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Chip label="Gestión de Proyecto" color="primary" sx={{ mb: 2, fontWeight: 600 }} />
@@ -1815,6 +3837,7 @@ const App = () => {
                                     variant="determinate" 
                                     value={actividad.progreso} 
                                     color={actividad.progreso === 100 ? "success" : "primary"}
+                                    sx={{ height: 8, borderRadius: 4 }}
                                   />
                                 </Box>
                                 <Typography variant="body2" color="textSecondary">
@@ -1909,7 +3932,7 @@ const App = () => {
       </Box>
 
       {/* Equipo Section Mejorada */}
-      <Box id="equipo" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
+      <Box id="equipo" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Chip label="Equipo de Desarrollo" color="primary" sx={{ mb: 2, fontWeight: 600 }} />
@@ -1968,7 +3991,7 @@ const App = () => {
       </Box>
 
       {/* Conclusión Section */}
-      <Box id="conclusion" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
+      <Box id="conclusion" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Chip label="Conclusión" color="secondary" sx={{ mb: 2, fontWeight: 600 }} />
@@ -2060,7 +4083,7 @@ const App = () => {
       </Box>
 
       {/* Bibliografía Section */}
-      <Box id="bibliografia" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.paper' }}>
+      <Box id="bibliografia" sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Chip label="Bibliografía" color="primary" sx={{ mb: 2, fontWeight: 600 }} />
