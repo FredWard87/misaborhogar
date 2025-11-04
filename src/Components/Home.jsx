@@ -2255,7 +2255,7 @@ const App = () => {
           nombre: "Diseño de la arquitectura de la aplicación",
           descripcion: "Definición de la estructura de carpetas y patrones de diseño",
           prioridad: "Alta",
-          estimacion: "2 días",
+          estimacion: "10 días",
           responsable: "Fredy Esparza",
           estado: "Realizada",
           progreso: 100
@@ -2265,7 +2265,7 @@ const App = () => {
           nombre: "Creación del sistema de navegación",
           descripcion: "Implementación de React Navigation y estructura de rutas",
           prioridad: "Alta",
-          estimacion: "4 días",
+          estimacion: "11 días",
           responsable: "Josué Ortiz",
           estado: "Realizada",
           progreso: 100
@@ -2275,7 +2275,7 @@ const App = () => {
           nombre: "Desarrollo de la pantalla de inicio",
           descripcion: "Implementación del diseño principal con recetas destacadas",
           prioridad: "Media",
-          estimacion: "5 días",
+          estimacion: "10 días",
           responsable: "Alan Avalos",
           estado: "Realizada",
           progreso: 100
@@ -2285,7 +2285,7 @@ const App = () => {
           nombre: "Base de datos de recetas inicial",
           descripcion: "Creación del JSON con las primeras 20 recetas",
           prioridad: "Media",
-          estimacion: "3 días",
+          estimacion: "9 días",
           responsable: "Citlali Limas",
           estado: "Realizada",
           progreso: 100
@@ -2295,7 +2295,7 @@ const App = () => {
           nombre: "Configuración de Jira y Git",
           descripcion: "Estructura del proyecto en Jira y repositorio GitHub",
           prioridad: "Alta",
-          estimacion: "2 días",
+          estimacion: "5 días",
           responsable: "Scrum Master",
           estado: "Realizada",
           progreso: 100
@@ -2305,7 +2305,7 @@ const App = () => {
           nombre: "Sistema de cálculo de ingredientes",
           descripcion: "Lógica para ajustar cantidades según número de personas",
           prioridad: "Media",
-          estimacion: "4 días",
+          estimacion: "15 días",
           responsable: "Fredy Esparza",
           estado: "Realizada",
           progreso: 100
@@ -2316,7 +2316,7 @@ const App = () => {
           descripcion: "Configuración de Jest y primeras pruebas",
           prioridad: "Baja",
           estimacion: "2 días",
-          responsable: "Equipo completo",
+          responsable: "5 quipo completo",
           estado: "Realizada",
           progreso: 100
         }
