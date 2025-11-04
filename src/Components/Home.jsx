@@ -2236,8 +2236,8 @@ const App = () => {
     {
       numero: 1,
       nombre: "Sprint 1 - Configuración y Estructura Base",
-      fechaInicio: "01 Octubre 2024",
-      fechaFin: "28 Octubre 2024",
+      fechaInicio: "01 Octubre 2025",
+      fechaFin: "04 Noviembre 2025",
       objetivo: "Configuración inicial del proyecto y desarrollo de la estructura base de la aplicación",
       actividades: [
         {
@@ -2247,8 +2247,8 @@ const App = () => {
           prioridad: "Alta",
           estimacion: "3 días",
           responsable: "Equipo completo",
-          estado: "Por hacer",
-          progreso: 0
+          estado: "Realizada",
+          progreso: 100
         },
         {
           id: "SP1-002",
@@ -2257,8 +2257,8 @@ const App = () => {
           prioridad: "Alta",
           estimacion: "2 días",
           responsable: "Fredy Esparza",
-          estado: "Por hacer",
-          progreso: 0
+          estado: "Realizada",
+          progreso: 100
         },
         {
           id: "SP1-003",
@@ -2267,8 +2267,8 @@ const App = () => {
           prioridad: "Alta",
           estimacion: "4 días",
           responsable: "Josué Ortiz",
-          estado: "Por hacer",
-          progreso: 0
+          estado: "Realizada",
+          progreso: 100
         },
         {
           id: "SP1-004",
@@ -2277,8 +2277,8 @@ const App = () => {
           prioridad: "Media",
           estimacion: "5 días",
           responsable: "Alan Avalos",
-          estado: "Por hacer",
-          progreso: 0
+          estado: "Realizada",
+          progreso: 100
         },
         {
           id: "SP1-005",
@@ -2287,8 +2287,8 @@ const App = () => {
           prioridad: "Media",
           estimacion: "3 días",
           responsable: "Citlali Limas",
-          estado: "Por hacer",
-          progreso: 0
+          estado: "Realizada",
+          progreso: 100
         },
         {
           id: "SP1-006",
@@ -2297,8 +2297,8 @@ const App = () => {
           prioridad: "Alta",
           estimacion: "2 días",
           responsable: "Scrum Master",
-          estado: "Por hacer",
-          progreso: 0
+          estado: "Realizada",
+          progreso: 100
         },
         {
           id: "SP1-007",
@@ -2307,8 +2307,8 @@ const App = () => {
           prioridad: "Media",
           estimacion: "4 días",
           responsable: "Fredy Esparza",
-          estado: "Por hacer",
-          progreso: 0
+          estado: "Realizada",
+          progreso: 100
         },
         {
           id: "SP1-008",
@@ -2317,8 +2317,8 @@ const App = () => {
           prioridad: "Baja",
           estimacion: "2 días",
           responsable: "Equipo completo",
-          estado: "Por hacer",
-          progreso: 0
+          estado: "Realizada",
+          progreso: 100
         }
       ],
       entregables: [
